@@ -50,7 +50,7 @@ class Footer extends Component {
             <nav className="flex flex-row gap-10 md:flex-1">
               <div className="flex-1 flex flex-col gap-5">
                 <div className="grid-item">
-                  <h4 className="font-bold">Product</h4>
+                  <h4 className="font-bold">Produk</h4>
                 </div>
                 <div className="flex flex-col gap-2">
                   <div className="grid-item">
@@ -59,7 +59,7 @@ class Footer extends Component {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Locations
+                      Lokasi
                     </a>
                   </div>
                   <div className="grid-item">
@@ -68,7 +68,7 @@ class Footer extends Component {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Countries
+                      Galery
                     </a>
                   </div>
                   <div className="grid-item">
@@ -77,14 +77,14 @@ class Footer extends Component {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Blog
+                      Produk
                     </a>
                   </div>
                 </div>
               </div>
               <div className="flex-1 flex flex-col gap-5">
                 <div className="grid-item">
-                  <h4 className="font-bold">Engage</h4>
+                  <h4 className="font-bold">Mulai</h4>
                 </div>
                 <div className="flex flex-col gap-2">
                   <div className="grid-item">
@@ -112,24 +112,6 @@ class Footer extends Component {
                       rel="noopener noreferrer"
                     >
                       About Us
-                    </a>
-                  </div>
-                  <div className="grid-item">
-                    <a
-                      href="https://"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Privacy Policy
-                    </a>
-                  </div>
-                  <div className="grid-item">
-                    <a
-                      href="https://"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Terms of Services
                     </a>
                   </div>
                 </div>

@@ -226,16 +226,16 @@ class Mainpage extends Component {
             <div className="shadow-primary rounded-xl flex flex-col md:flex-row py-10 md:py-14 px-8 md:px-16 bg-white text-center md:text-left">
               <aside className="flex-1 space-y-4 mb-5 md:mb-0">
                 <p className="text-3xl font-poppins font-semibold">
-                  Check our promo today!
+                  Check Promo Hari ini!
                 </p>
                 <p className="text-primary">
                   Let&apos;s see the deals and pick yours
                 </p>
               </aside>
               <aside className="hidden lg:block lg:flex-1"></aside>
-              <aside className="flex-1 flex flex-col justify-center">
-                <button className="ml-auto w-[100%] md:w-[75%]  bg-secondary rounded-xl py-4 text-tertiary font-bold">
-                  See promo
+              <aside className="flex-1 flex flex-col justify-center text-xl text-[#ffffff]">
+                <button className="rounded-full bg-secondary px-6 py-3 text-tertiary font-poppins hover:bg-secondary-150 duration-250 flex items-center justify-center">
+                  Lihat promo
                 </button>
               </aside>
             </div>

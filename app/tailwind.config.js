@@ -26,7 +26,7 @@ module.exports = {
         "primary-context": "#ffffff",
         secondary: "#949494",
         "secondary-200": "#ffffff",
-        tertiary: "#6A4029",
+        tertiary: "#ffffff",
         quartenary: "#0b132a",
       },
       borderWidth: {

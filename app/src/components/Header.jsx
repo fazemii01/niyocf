@@ -211,14 +211,6 @@ class Header extends Component {
                   />
                 </svg>
               </div>
-              {!_.isEmpty(this.props.userInfo.token) && (
-                <a href="" className="relative">
-                  <div className="absolute -left-2 -top-2 h-4 w-4 bg-tertiary rounded-full text-white flex text-[0.70rem] items-center justify-center font-extrabold">
-                    9+
-                  </div>
-                  <img src={chatIcon} alt="" width="24px" />
-                </a>
-              )}
               <button onClick={this.toggleNavbar}>
                 <img
                   src={burgerIcon}
@@ -341,12 +333,7 @@ class Header extends Component {
                     </nav>
                   )}
                 </div>
-                <a href="" className="relative">
-                  <div className="absolute -left-2 -top-2 h-4 w-4 bg-tertiary rounded-full text-white flex text-[0.70rem] items-center justify-center font-extrabold">
-                    9+
-                  </div>
-                  <img src={chatIcon} alt="" width="30px" />
-                </a>
+
                 <div
                   className="relative flex items-center my-auto"
                   ref={this.dropdownRef}
