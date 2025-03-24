@@ -16,8 +16,8 @@ import loginIcon from "@iconify-icons/carbon/login";
 import burgerIcon from "../assets/icons/burger-menu-left.svg";
 import chatIcon from "../assets/icons/chat.svg";
 import placeholderProfile from "../assets/images/placeholder-profile.jpg";
-import logo from "../assets/logo.png";
-import text from "../assets/text.png";
+import logo from "../assets/logo2.png";
+import text from "../assets/text2.png";
 import { contextAct } from "../redux/slices/context.slice";
 import { profileAction } from "../redux/slices/profile.slice";
 import { uinfoAct } from "../redux/slices/userInfo.slice";
@@ -175,8 +175,13 @@ class Header extends Component {
           <div className=" flex global-px justify-between items-center">
             <div className="py-5 md:py-8">
               <Link to="/" className=" flex flex-row justify-center gap-4">
-                <img src={logo} alt="logo" width="40px" />
-                <img src={text} alt="logo" width="70px" />
+                <img src={logo} alt="logo" width="30px" />
+                <img
+                  src={text}
+                  alt="logo"
+                  width="70px"
+                  className="h-8 w-auto"
+                />
               </Link>
             </div>
             <div className="navbar-burger select-none cursor-pointer lg:hidden py-4 flex gap-7 flex-row items-center">
