@@ -11,7 +11,7 @@ async function getUserProfile(req, res) {
     if (result.rows.length === 0) {
       res.status(404).json({
         data: result.rows,
-        msg: "User not found",
+        msg: "User not foundddd",
       });
       return;
     }

@@ -37,12 +37,12 @@ module.exports = {
   daisyui: {
     themes: [
       {
-        jokopi: {
+        niyocf: {
           primary: "#6A4029",
           secondary: "#949494",
           accent: "#0b132a",
           neutral: "#9f9f9f",
-          "base-100": "#fff",
+          "base-100": "#ffffff",
           info: "#3ABFF8",
           success: "#36D399",
           warning: "#FBBD23",
