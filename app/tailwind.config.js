@@ -26,7 +26,7 @@ module.exports = {
         "primary-context": "#ffffff",
         secondary: "#949494",
         "secondary-200": "#ffffff",
-        tertiary: "#ffffff",
+        tertiary: "#010F1C",
         quartenary: "#0b132a",
       },
       borderWidth: {
@@ -42,7 +42,7 @@ module.exports = {
           secondary: "#949494",
           accent: "#0b132a",
           neutral: "#9f9f9f",
-          "base-100": "#ffffff",
+          "base-100": "#fff",
           info: "#3ABFF8",
           success: "#36D399",
           warning: "#FBBD23",

@@ -17,7 +17,6 @@ const MenuSlider = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(catId || "1");
 
-  // Kategori yang sesuai dengan API
   const categories = [
     { id: "1", name: "Coffee", icon: "ti-coffee" },
     { id: "2", name: "Non Coffee", icon: "ti-cup" },
@@ -34,9 +33,9 @@ const MenuSlider = () => {
     try {
       const response = await axios.get("http://localhost:5500/apiv1/products", {
         params: {
-          category_id: category, // Sesuai dengan API
+          category_id: category,
           page: searchParams.get("page") || 1,
-          limit: 8, // Sesuai dengan index.jsx
+          limit: 8,
           sort: searchParams.get("sort") || "id_desc",
           orderBy: searchParams.get("orderBy") || "name",
           q: searchParams.get("q") || "",
@@ -67,7 +66,6 @@ const MenuSlider = () => {
         Menu That Always Makes You Fall In Love
       </h2>
 
-      {/* Kategori Menu */}
       <div className="flex gap-5 mb-8 max-sm:flex-wrap justify-center">
         {categories.map((category) => (
           <button
@@ -86,7 +84,6 @@ const MenuSlider = () => {
         ))}
       </div>
 
-      {/* Produk Slider */}
       {loading ? (
         <div className="flex justify-center">
           <img src={loadingImage} alt="Loading" className="w-20 h-20" />
