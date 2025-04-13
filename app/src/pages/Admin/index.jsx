@@ -197,7 +197,7 @@ const AdminDashboard = (props) => {
             </section>
           )}
           <section className="flex-[2_2_0%] flex flex-col gap-8">
-            <section className="bg-white rounded-lg shadow-lg p-5 flex flex-col items-center">
+            {/* <section className="bg-white rounded-lg shadow-lg p-5 flex flex-col items-center">
               <div className="profile-top flex gap-4 mb-2">
                 <div className="my-auto">
                   <div className="avatar">
@@ -242,7 +242,7 @@ const AdminDashboard = (props) => {
               <p className="text-sm text-primary-context text-center">
                 478 Customer
               </p>
-            </section>
+            </section> */}
             <section className="bg-white rounded-lg shadow-lg p-5 flex flex-col items-center gap-5">
               <p className="text-black text-lg font-bold text-center">Goals</p>
               <svg

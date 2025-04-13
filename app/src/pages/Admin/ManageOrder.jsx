@@ -228,7 +228,7 @@ const ManageOrder = (props) => {
               </aside>
               <aside className="flex-1 flex flex-col gap-5">
                 <section className="text-white text-xl lg:text-2xl font-extrabold drop-shadow-lg text-center md:text-left relative items-center">
-                  Address details
+                  Information Order
                   <button
                     //   onClick={editMode ? saveEditInfo : toggleEdit}
                     className="absolute text-lg right-0 bottom-0 top-1 hover:underline"
@@ -238,17 +238,16 @@ const ManageOrder = (props) => {
                 </section>
                 <section className="bg-white rounded-xl  p-5 lg:p-7 space-y-2">
                   <div className="flex gap-1">
-                    <p>
+                    {/* <p>
                       <b>Delivery</b> to{" "}
-                      {order[focusedCard]?.delivery_address ||
-                        "Jln. Garuda 536"}
-                    </p>
+                      {order[focusedCard]?.delivery_address || ""}
+                    </p> */}
                   </div>
                   <hr />
 
                   <p>{order[focusedCard]?.notes || "no notes"}</p>
                   <hr />
-                  <p>{order[focusedCard]?.phone_number || "0896726232"}</p>
+                  <p>{order[focusedCard]?.phone_number || ""}</p>
                 </section>
                 {/* <section className="text-white text-xl lg:text-2xl font-extrabold drop-shadow-lg text-center md:text-left relative">
                 Payment method

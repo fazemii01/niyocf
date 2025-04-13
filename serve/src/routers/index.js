@@ -9,6 +9,7 @@ import promoRouter from "./promo.route.js";
 import testRouter from "./tester.route.js";
 import transactionsRouter from "./transactions.route.js";
 import userPanelRouter from "./userPanel.route.js";
+import galeryRouter from "./gallery.route.js";
 import userRouter from "./users.route.js";
 
 // routes from express
@@ -29,6 +30,7 @@ routers.use("/apiv1/userPanel", userPanelRouter);
 
 // week 11 (additions)
 routers.use("/adminPanel", adminRouter);
+routers.use("/apiv1/gallery", galeryRouter);
 console.log({
   productsRouter,
   userRouter,
@@ -37,6 +39,7 @@ console.log({
   hashMakerRouter,
   authRouter,
   testRouter,
+  galeryRouter,
 });
 console.log("Registered Routes:");
 routers.stack.forEach((layer) => {

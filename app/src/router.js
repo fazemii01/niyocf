@@ -17,6 +17,14 @@ import Mainpage from "./pages/Mainpage";
 import Products from "./pages/Products";
 import EditProduct from "./pages/Products/EditProduct";
 import NewProduct from "./pages/Products/NewProduct";
+import EditGalery from "./pages/Galery/EditGalery";
+import NewGalery from "./pages/Galery/NewGalery";
+import GaleryIndex from "./pages/Galery/index";
+
+import EditTesti from "./pages/Testi/EditTestimonial";
+import NewTesti from "./pages/Testi/NewTestimonial";
+import IndexTesti from "./pages/Testi/IndexTestimonial";
+
 import ProductDetail from "./pages/Products/ProductDetail";
 import Profile from "./pages/Profile";
 import EditPromo from "./pages/Promo/EditPromo";
@@ -47,7 +55,7 @@ const Routers = () => {
             path="products/detail/:productId"
             element={<ProductDetail />}
           />
-          
+
           {/* Route which must not logged in */}
           <Route
             path="auth"
@@ -79,6 +87,12 @@ const Routers = () => {
             <Route path="products/edit/:productId" element={<EditProduct />} />
             <Route path="promo/new" element={<NewPromo />} />
             <Route path="promo/edit/:promoId" element={<EditPromo />} />
+            <Route path="gallery/new" element={<NewGalery />} />
+            <Route path="gallery/edit/:id" element={<EditGalery />} />
+            <Route path="gallery" element={<GaleryIndex />} />
+            <Route path="testi/new" element={<NewTesti />} />
+            <Route path="testi/edit/:id" element={<EditTesti />} />
+            <Route path="testi" element={<IndexTesti />} />
           </Route>
         </Route>
       </Routes>

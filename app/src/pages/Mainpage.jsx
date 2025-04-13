@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 
 import { Link } from "react-router-dom";
 import MenuSection from "./Products/MenuSlide.jsx";
+import Galery from "./Galery/galery.jsx";
 import { Navigation } from "swiper/modules";
 import { Icon } from "@iconify/react";
 import locate from "@iconify-icons/mdi/location";
@@ -180,6 +181,9 @@ class Mainpage extends Component {
             </div>
             <div className="mx-auto my-0 bg-white max-w-[1440px] font-['Montserrat']">
               <MenuSection />
+            </div>
+            <div className="mx-auto my-0 bg-white max-w-[1440px] font-['Montserrat']">
+              <Galery />
             </div>
           </section>
           <section className="global-px py-8 md:py-20">
