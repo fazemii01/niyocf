@@ -1,41 +1,82 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Modal from "../../components/Modal";
 import { createTestimonialEntry } from "../../utils/dataProvider/testimonial";
-import useDocumentTitle from "../../utils/documentTitle";
-import phProfile from "../../assets/images/placeholder-profile.jpg";
+import placeholderProfile from "../../assets/images/placeholder-profile.jpg";
 
-const NewTestimonial = (props) => {
-  useDocumentTitle("New Testimonial");
-  const [form, setForm] = useState({ name: "", text: "" });
-  const [cancel, setCancel] = useState(false);
-  const [loading, setLoading] = useState(false);
+const NewTestimonial = () => {
+  const userInfo = useSelector((state) => state.userInfo);
   const navigate = useNavigate();
   const controller = useMemo(() => new AbortController(), []);
 
-  const formChangeHandler = (e) => {
+  const initialFormState = {
+    name: "",
+    location: "",
+    rating: "",
+    text: "",
+    image: "",
+  };
+
+  const [form, setForm] = useState(initialFormState);
+  const [preview, setPreview] = useState("");
+  const [cancel, setCancel] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!form.image) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(form.image);
+    setPreview(objectUrl);
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [form.image]);
+
+  const handleFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    const file = e.target.files[0];
+    if (file.size > 2 * 1024 * 1024) return toast.error("Image max 2MB");
+
+    setForm({ ...form, image: file });
+  };
+
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const submitHandler = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (form.name.trim().length < 3) return toast.error("Name too short");
-    if (form.text.trim().length < 10)
-      return toast.error("Testimonial too short");
+    if (!form.name || !form.location || !form.rating || !form.text) {
+      return toast.error("All fields are required");
+    }
 
     setLoading(true);
+
     try {
-      const token = props.userInfo?.token || localStorage.getItem("token");
-      await createTestimonialEntry(form, token, controller);
-      toast.success("Testimonial added successfully");
-      navigate("/testimonial", { replace: true });
+      const token = userInfo?.token || localStorage.getItem("token");
+
+      await createTestimonialEntry(
+        {
+          name: form.name,
+          location: form.location,
+          rating: parseInt(form.rating),
+          text: form.text,
+          // image: form.image, // if backend supports image upload
+        },
+        token,
+        controller
+      );
+
+      toast.success("Testimonial submitted!");
+      navigate("/", { replace: true });
     } catch (err) {
-      toast.error(err.message || "Failed to add testimonial");
+      toast.error(err.message || "Failed to submit testimonial");
     } finally {
       setLoading(false);
     }
@@ -44,12 +85,13 @@ const NewTestimonial = (props) => {
   return (
     <>
       <Modal isOpen={cancel} onClose={() => setCancel(false)}>
-        <p>Are you sure want to reset the form?</p>
-        <section className="flex justify-center gap-x-5 mt-5">
+        <p>Reset the form?</p>
+        <div className="flex gap-4 mt-4">
           <button
             className="btn btn-error"
             onClick={() => {
-              setForm({ name: "", text: "" });
+              setForm({ ...initialFormState });
+              setPreview("");
               setCancel(false);
             }}
           >
@@ -58,84 +100,104 @@ const NewTestimonial = (props) => {
           <button className="btn" onClick={() => setCancel(false)}>
             No
           </button>
-        </section>
+        </div>
       </Modal>
 
       <Header />
       <main className="global-px py-6">
-        <nav className="flex flex-row list-none gap-1">
-          <li className="after:content-['>'] after:font-poppins font-semibold text-primary">
-            <NavLink to="/testimonial">Testimonials</NavLink>
-          </li>
-          <li className="text-tertiary font-poppins font-semibold">
-            Add new testimonial
-          </li>
-        </nav>
-        <section className="flex flex-col md:flex-row py-14">
+        <section className="flex flex-col md:flex-row gap-12 py-8">
           <section className="flex-1 flex flex-col items-center gap-4">
+            <nav className="flex flex-row list-none gap-1">
+              <li className="after:content-['>'] after:font-poppins font-semibold text-primary">
+                <NavLink to="/testimonial">Testimonials</NavLink>
+              </li>
+              <li className="text-tertiary font-poppins font-semibold">
+                Add new testimonial
+              </li>
+            </nav>
             <div className="avatar">
-              <div className="w-52 rounded-full">
-                <img src={phProfile} alt="Profile" />
+              <div className="w-52 rounded-2xl border">
+                <img
+                  src={preview || placeholderProfile}
+                  className="object-cover"
+                  alt="preview"
+                />
               </div>
             </div>
-            <label
-              htmlFor="form_name"
-              className="btn btn-block btn-lg normal-case btn-secondary text-tertiary"
-            >
-              Customer&apos;s photo (optional)
+            <label htmlFor="form_image" className="btn btn-accent text-white">
+              Choose Photo
             </label>
+            <input
+              id="form_image"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFile}
+            />
           </section>
 
           <form
-            onSubmit={submitHandler}
+            onSubmit={handleSubmit}
             className="flex-[2_2_0%] md:pl-12 lg:pl-24 flex flex-col gap-4"
           >
-            <label
-              className="text-tertiary font-bold text-lg"
-              htmlFor="form_name"
-            >
-              Name :
-            </label>
+            <label className="text-tertiary font-bold text-lg">Name</label>
             <input
-              id="form_name"
-              type="text"
               name="name"
               value={form.name}
-              onChange={formChangeHandler}
+              onChange={handleChange}
+              className="border-b-2 py-2 border-gray-300 focus:border-tertiary outline-none"
               placeholder="Customer's name"
               required
-              className="border-b-2 py-2 border-gray-300 focus:border-tertiary outline-none"
             />
 
-            <label
-              className="text-tertiary font-bold text-lg"
-              htmlFor="form_text"
-            >
-              Testimonial :
+            <label className="text-tertiary font-bold text-lg">Location</label>
+            <input
+              name="location"
+              value={form.location}
+              onChange={handleChange}
+              className="border-b-2 py-2 border-gray-300 focus:border-tertiary outline-none"
+              placeholder="City or Country"
+              required
+            />
+
+            <label className="text-tertiary font-bold text-lg">Rating</label>
+            <input
+              name="rating"
+              type="number"
+              min={1}
+              max={5}
+              value={form.rating}
+              onChange={handleChange}
+              className="border-b-2 py-2 border-gray-300 focus:border-tertiary outline-none"
+              placeholder="Rating 1 to 5"
+              required
+            />
+
+            <label className="text-tertiary font-bold text-lg">
+              Testimonial
             </label>
             <textarea
-              id="form_text"
               name="text"
               value={form.text}
-              onChange={formChangeHandler}
+              onChange={handleChange}
               placeholder="What did the customer say?"
               rows={4}
-              required
               className="border-b-2 py-2 border-gray-300 focus:border-tertiary outline-none"
+              required
             />
 
             <button
               type="submit"
               className={`${
-                loading && "loading"
-              } btn btn-block btn-lg normal-case mt-2 btn-primary text-white shadow-lg rounded-2xl`}
+                isLoading && "loading"
+              } btn btn-lg btn-primary text-white mt-4`}
             >
               Save Testimonial
             </button>
             <button
               type="reset"
               onClick={() => setCancel(true)}
-              className="btn btn-lg normal-case bg-gray-200 hover:bg-gray-300 text-tertiary shadow-lg rounded-2xl"
+              className="btn btn-lg bg-gray-200 text-black"
             >
               Reset
             </button>
@@ -147,8 +209,4 @@ const NewTestimonial = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  userInfo: state.userInfo,
-});
-
-export default connect(mapStateToProps)(NewTestimonial);
+export default NewTestimonial;

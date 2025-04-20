@@ -3,6 +3,7 @@ import axios from "axios";
 import phProfile from "../../assets/images/person-with-a-coffee.webp";
 import loadingImage from "../../assets/images/loading.svg";
 import emptyBox from "../../assets/images/empty.svg";
+import starIcon from "../../assets/icons/star.svg";
 
 const TestimonialIndex = () => {
   const [testimonials, setTestimonials] = useState([]);
@@ -11,11 +12,10 @@ const TestimonialIndex = () => {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const res = await axios.get("http://localhost:5500/apiv1/testimonials");
+        const res = await axios.get("http://localhost:5500/apiv1/testimonial");
         setTestimonials(res.data?.data || []);
       } catch (err) {
-        console.error("Failed to fetch testimonials", err);
-        setTestimonials([]);
+        console.error("Error loading testimonials", err);
       } finally {
         setLoading(false);
       }
@@ -25,56 +25,52 @@ const TestimonialIndex = () => {
   }, []);
 
   return (
-    <section className="global-px py-8 md:py-20">
-      <div className="flex flex-col items-center mb-8 md:mb-20 text-center">
-        <h2 className="text-3xl md:text-[35px] text-quartenary font-poppins font-semibold mb-5">
-          Loved by Customer of
-          <br /> Happy Customer
+    <section className="global-px py-10 md:py-20">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-semibold text-quartenary mb-4">
+          What Our Customers Say
         </h2>
-        <p className="text-[1rem] text-center max-w-[555px] text-primary">
-          These are the stories of our customers who have visited us with great
-          pleasure.
+        <p className="text-primary max-w-xl mx-auto">
+          Real feedback from our awesome community.
         </p>
       </div>
 
       {loading ? (
         <div className="flex justify-center">
-          <img src={loadingImage} alt="Loading" className="w-20 h-20" />
+          <img src={loadingImage} alt="Loading..." className="w-16 h-16" />
         </div>
       ) : testimonials.length === 0 ? (
-        <div className="text-center">
+        <div className="text-center text-primary">
           <img
             src={emptyBox}
-            alt="No Testimonials"
+            alt="No testimonials"
             className="w-32 mx-auto mb-4"
           />
-          <p className="text-gray-500">No testimonials available.</p>
+          <p>No testimonials available.</p>
         </div>
       ) : (
-        <div className="overflow-auto flex flex-row gap-5 flex-wrap lg:flex-nowrap">
-          {testimonials.map((review, idx) => (
+        <div className="flex gap-6 flex-wrap justify-center">
+          {testimonials.map(({ id, name, location, rating, text, image }) => (
             <div
-              className="w-[400px] border-gray-300 hover:border-tertiary border-2 duration-200 rounded-xl p-7 space-y-4 hover:shadow-2xl mx-auto"
-              key={idx}
+              key={id}
+              className="w-[360px] border rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300"
             >
-              <div className="flex flex-row gap-2 items-center">
+              <div className="flex items-center gap-4 mb-4">
                 <img
-                  src={review.image || phProfile}
-                  alt={review.name}
-                  className="w-14 aspect-square object-cover rounded-full"
+                  src={image || phProfile}
+                  alt={name}
+                  className="w-14 h-14 rounded-full object-cover"
                 />
-                <div className="flex-1">
-                  <p className="font-poppins font-semibold text-quartenary text-lg">
-                    {review.name}
-                  </p>
-                  <p className="text-primary text-sm">{review.location}</p>
+                <div>
+                  <p className="text-quartenary font-semibold">{name}</p>
+                  <p className="text-sm text-primary">{location}</p>
                 </div>
-                <div className="flex flex-row items-center gap-2">
-                  {review.rating || "5.0"}{" "}
-                  <img src={starIcon} alt="Rating" className="w-5 h-5" />
+                <div className="ml-auto flex items-center gap-1 text-primary font-medium">
+                  {Number(rating).toFixed(1)}
+                  <img src={starIcon} alt="star" className="w-4 h-4" />
                 </div>
               </div>
-              <p className="text-quartenary">“{review.message}”</p>
+              <p className="text-quartenary italic">“{text}”</p>
             </div>
           ))}
         </div>
