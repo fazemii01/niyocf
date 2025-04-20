@@ -25,7 +25,7 @@ router.patch(
 router.delete("/:id", auth.check, auth.admin, galleryController.destroy);
 
 // ✅ GET /:id route to fetch a single gallery item (only if id is numeric)
-router.get("/:id(\\d+)", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const data = await import("../models/gallery.model.js").then((mod) =>
