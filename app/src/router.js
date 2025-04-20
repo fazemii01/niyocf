@@ -14,6 +14,7 @@ import NotFound from "./pages/Error";
 import History from "./pages/History";
 import HistoryDetail from "./pages/History/HistoryDetail";
 import Mainpage from "./pages/Mainpage";
+import Cart from "./pages/cart";
 import Products from "./pages/Products";
 import EditProduct from "./pages/Products/EditProduct";
 import NewProduct from "./pages/Products/NewProduct";
@@ -55,7 +56,7 @@ const Routers = () => {
             path="products/detail/:productId"
             element={<ProductDetail />}
           />
-
+          <Route path="cart" element={<Cart />} />
           {/* Route which must not logged in */}
           <Route
             path="auth"
