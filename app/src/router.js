@@ -21,6 +21,8 @@ import NewProduct from "./pages/Products/NewProduct";
 import EditGalery from "./pages/Galery/EditGalery";
 import NewGalery from "./pages/Galery/NewGalery";
 import GaleryIndex from "./pages/Galery/index";
+import trans from "./utils/dataProvider/transaction";
+
 import EditTesti from "./pages/Testi/EditTestimonial";
 import NewTesti from "./pages/Testi/NewTestimonial";
 import IndexTesti from "./pages/Testi/IndexTestimonial";
@@ -93,6 +95,8 @@ const Routers = () => {
             <Route path="testi/new" element={<NewTesti />} />
             <Route path="testi/edit/:id" element={<EditTesti />} />
             <Route path="testi" element={<IndexTesti />} />
+            <Route path="transaction/:id" element={<trans />} />
+            <Route path="transaction" element={<trans />} />
           </Route>
         </Route>
       </Routes>

@@ -12,6 +12,7 @@ import userPanelRouter from "./userPanel.route.js";
 import galeryRouter from "./gallery.route.js";
 import testiRouter from "./testimonial.route.js";
 import userRouter from "./users.route.js";
+import transac from "./transactions.route.js";
 
 // routes from express
 const routers = express.Router();
@@ -33,6 +34,8 @@ routers.use("/apiv1/userPanel", userPanelRouter);
 routers.use("/adminPanel", adminRouter);
 routers.use("/apiv1/gallery", galeryRouter);
 routers.use("/apiv1/testimonial", testiRouter);
+routers.use("/apiv1/testimonial", testiRouter);
+routers.use("/apiv1/transactions", transac);
 console.log({
   productsRouter,
   userRouter,

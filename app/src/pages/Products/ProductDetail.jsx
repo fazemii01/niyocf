@@ -192,64 +192,7 @@ function ProductDetail(props) {
             />
             <section className="p-4 px-8 w-full shadow-primary rounded-xl flex flex-col gap-8">
               <p className="font-bold text-left text-xl">Delivery and Time</p>
-              <div className="select-none">
-                <ul className="flex flex-row gap-2 font-bold">
-                  <li>
-                    <input
-                      type="radio"
-                      id="dinein"
-                      name="delivery"
-                      value="1"
-                      className="hidden peer"
-                      checked={form.delivery === "1"}
-                      onChange={onChangeForm}
-                      required
-                    />
-                    <label
-                      htmlFor="dinein"
-                      className="inline-flex items-center justify-between p-2 text-gray-500 bg-[#BABABA59] rounded-lg cursor-pointer peer-checked:text-white peer-checked:bg-tertiary peer-checked:font-bold hover:text-gray-600 hover:bg-gray-100"
-                    >
-                      <div className="block">Dine in</div>
-                    </label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      id="doordelivery"
-                      name="delivery"
-                      value="2"
-                      className="hidden peer"
-                      checked={form.delivery === "2"}
-                      onChange={onChangeForm}
-                      required
-                    />
-                    <label
-                      htmlFor="doordelivery"
-                      className="inline-flex items-center justify-between p-2 text-gray-500 bg-[#BABABA59] rounded-lg cursor-pointer peer-checked:text-white peer-checked:bg-tertiary peer-checked:font-bold hover:text-gray-600 hover:bg-gray-100"
-                    >
-                      <div className="block">Door delivery</div>
-                    </label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      id="pickup"
-                      name="delivery"
-                      value="3"
-                      className="hidden peer"
-                      checked={form.delivery === "3"}
-                      onChange={onChangeForm}
-                      required
-                    />
-                    <label
-                      htmlFor="pickup"
-                      className="inline-flex items-center justify-between p-2 text-gray-500 bg-[#BABABA59] rounded-lg cursor-pointer peer-checked:text-white peer-checked:bg-tertiary peer-checked:font-bold hover:text-gray-600 hover:bg-gray-100"
-                    >
-                      <div className="block">Pick up</div>
-                    </label>
-                  </li>
-                </ul>
-              </div>
+              <div className="select-none"></div>
               <div className="grid grid-cols-[20%_80%] items-center gap-y-8 mb-4">
                 <p>Now</p>
                 <div className="select-none">
@@ -313,9 +256,7 @@ function ProductDetail(props) {
             <p className="text-tertiary text-lg text-justify md:min-h-[200px]">
               {desc}
             </p>
-            <p className="text-tertiary text-lg mb-8">
-              Delivery only on <b>Monday to friday</b> at <b>1 - 7 pm</b>
-            </p>
+
             <div className="flex justify-between items-center">
               <div className="custom-number-input h-10 w-32">
                 <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1v text-tertiary font-bold">
