@@ -21,7 +21,7 @@ import NewProduct from "./pages/Products/NewProduct";
 import EditGalery from "./pages/Galery/EditGalery";
 import NewGalery from "./pages/Galery/NewGalery";
 import GaleryIndex from "./pages/Galery/index";
-
+import Cart from "./pages/Cart/index";
 import EditTesti from "./pages/Testi/EditTestimonial";
 import NewTesti from "./pages/Testi/NewTestimonial";
 import IndexTesti from "./pages/Testi/IndexTestimonial";

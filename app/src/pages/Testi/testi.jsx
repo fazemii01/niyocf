@@ -1,8 +1,6 @@
-x;
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import phProfile from "../../assets/images/person-with-a-coffee.webp";
-import starIcon from "../../assets/icons/star-yellow.svg";
 import loadingImage from "../../assets/images/loading.svg";
 import emptyBox from "../../assets/images/empty.svg";
 

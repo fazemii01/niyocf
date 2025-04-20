@@ -3,6 +3,7 @@ import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import MenuSection from "./Products/MenuSlide.jsx";
 import Galery from "./Galery/galery.jsx";
+import Testi from "./Testi/testi.jsx";
 import { Navigation } from "swiper/modules";
 import { Icon } from "@iconify/react";
 import locate from "@iconify-icons/mdi/location";
@@ -185,8 +186,12 @@ class Mainpage extends Component {
             <div className="mx-auto my-0 bg-white max-w-[1440px] font-['Montserrat']">
               <Galery />
             </div>
+            <div className="mx-auto my-0 bg-white max-w-[1440px] font-['Montserrat']">
+              <Testi />
+            </div>
           </section>
-          <section className="global-px py-8 md:py-20">
+
+          {/* <section className="global-px py-8 md:py-20">
             <div className="flex flex-col items-center mb-8 md:mb-20 text-center">
               <h2 className="text-3xl md:text-[35px] text-quartenary font-poppins font-semibold mb-5">
                 Loved by Customer of
@@ -225,7 +230,7 @@ class Mainpage extends Component {
                 );
               })}
             </div>
-          </section>
+          </section> */}
           <section className="global-px z-10 relative w-full mb-6 md:mb-[-6rem]">
             <div className="shadow-primary rounded-xl flex flex-col md:flex-row py-10 md:py-14 px-8 md:px-16 bg-white text-center md:text-left">
               <aside className="flex-1 space-y-4 mb-5 md:mb-0">
