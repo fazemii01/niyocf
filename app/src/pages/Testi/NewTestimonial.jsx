@@ -115,18 +115,6 @@ const NewTestimonial = () => {
                 Add new testimonial
               </li>
             </nav>
-            <div className="avatar">
-              <div className="w-52 rounded-2xl border">
-                <img
-                  src={preview || placeholderProfile}
-                  className="object-cover"
-                  alt="preview"
-                />
-              </div>
-            </div>
-            <label htmlFor="form_image" className="btn btn-accent text-white">
-              Choose Photo
-            </label>
             <input
               id="form_image"
               type="file"
