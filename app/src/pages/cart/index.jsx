@@ -266,21 +266,14 @@ function Cart() {
                   </div>
                   <div className="flex flex-row uppercase lg:text-lg">
                     <p className="flex-[2_2_0%]">Tax & Fees</p>
-                    <p className="flex-1 lg:flex-none text-right">IDR 20.000</p>
-                  </div>
-                  <div className="flex flex-row uppercase lg:text-lg">
-                    <p className="flex-[2_2_0%]">Shipping</p>
-                    <p className="flex-1 lg:flex-none text-right">IDR 10.000</p>
+                    <p className="flex-1 lg:flex-none text-right">IDR 0</p>
                   </div>
                   <div className="flex flex-row uppercase  lg:text-xl font-bold my-10">
                     <p className="flex-[2_2_0%]">Total</p>
                     <p className="flex-initial lg:flex-none">
                       IDR{" "}
                       {n_f(
-                        cart.reduce(
-                          (acc, cur) => acc + cur.price * cur.qty,
-                          0
-                        ) + 30000
+                        cart.reduce((acc, cur) => acc + cur.price * cur.qty, 0)
                       )}
                     </p>
                   </div>
@@ -289,7 +282,7 @@ function Cart() {
             </aside>
             <aside className="flex-1 flex flex-col gap-5">
               <section className="text-white text-xl lg:text-2xl font-extrabold drop-shadow-lg text-center md:text-left relative items-center">
-                Address details
+                Detail Informasi Anda
                 <button
                   onClick={editMode ? saveEditInfo : toggleEdit}
                   className="absolute text-lg right-0 bottom-0 top-1 hover:underline"
@@ -315,14 +308,14 @@ function Cart() {
                   onChange={onChangeForm}
                   disabled={!editMode}
                   className="outline-none w-full"
-                  name="notes"
+                  name="note"
                   placeholder="notes..."
                 />
                 <hr />
                 <input
                   value={form.phone_number}
                   onChange={onChangeForm}
-                  disabled
+                  disabled={!editMode}
                   className="outline-none"
                   name="phone_number"
                   placeholder="phone number..."
@@ -447,7 +440,7 @@ function Cart() {
                         />
                       </defs>
                     </svg>
-                    Cash on Site
+                    Bayar Di tempat
                   </label>
                 </div>
               </section>

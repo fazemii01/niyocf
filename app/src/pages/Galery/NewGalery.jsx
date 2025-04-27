@@ -167,6 +167,7 @@ const NewGallery = () => {
               asSingle
               useRange={false}
               inputClassName="w-full border-b-2 py-2 border-gray-300 focus:border-tertiary outline-none"
+              popoverDirection="down"
             />
 
             <button

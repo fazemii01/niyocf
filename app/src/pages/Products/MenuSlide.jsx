@@ -98,19 +98,31 @@ const MenuSlider = () => {
           modules={[Navigation]}
           navigation
           spaceBetween={16}
-          slidesPerView={2}
+          breakpoints={{
+            0: { slidesPerView: 1.2 },
+            640: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          }}
           className="mt-6"
         >
           {products.map((product) => (
             <SwiperSlide key={product.id} className="relative">
-              <img
-                src={product.img ? product.img : productPlaceholder}
-                alt={product.name}
-                className="w-full h-60 object-cover rounded-lg"
-              />
-              <div className="absolute bottom-4 left-4 text-white bg-black bg-opacity-50 px-3 py-2 rounded">
-                <h3 className="text-lg font-bold">{product.name}</h3>
-                <p className="text-sm">IDR {product.price}</p>
+              <div className="card bg-base-100 shadow-[0_4px_20px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-300 rounded-xl overflow-hidden relative">
+                <figure className="w-full h-60 overflow-hidden">
+                  <img
+                    src={product.img ? product.img : productPlaceholder}
+                    alt={product.name}
+                    className="w-full h-auto object-cover mt-[-110px]"
+                  />
+                </figure>
+                <div className="card-body p-4">
+                  <h3 className="font-semibold text-base truncate">
+                    {product.name}
+                  </h3>
+                  <p className="text-sm text-gray-500">
+                    IDR {product.price.toLocaleString()}
+                  </p>
+                </div>
               </div>
             </SwiperSlide>
           ))}

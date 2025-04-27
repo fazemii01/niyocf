@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import penIcon from "../../assets/icons/icon-pen.svg";
 import productPlaceholder from "../../assets/images/placeholder-image.webp";
@@ -10,7 +11,9 @@ import moment from "moment";
 const GallerySection = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const { userInfo } = useSelector((state) => ({
+    userInfo: state.userInfo,
+  }));
   useEffect(() => {
     const fetchGallery = async () => {
       try {
@@ -46,7 +49,7 @@ const GallerySection = () => {
           {items.map((item) => (
             <div
               key={item.id}
-              className="card bg-base-100 shadow-lg rounded-xl overflow-hidden relative"
+              className="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl overflow-hidden relative"
             >
               <figure>
                 <img
@@ -67,12 +70,14 @@ const GallerySection = () => {
                   })}
                 </p>
               </div>
-              <NavLink
-                to={`/gallery/edit/${item.id}`}
-                className="btn btn-circle btn-sm absolute top-2 right-2 bg-secondary text-tertiary hover:bg-primary"
-              >
-                <img src={penIcon} alt="Edit" className="w-4 h-4" />
-              </NavLink>
+              {Number(userInfo.role) > 1 && (
+                <NavLink
+                  to={`/gallery/edit/${item.id}`}
+                  className="btn btn-circle btn-sm absolute top-2 right-2 bg-secondary text-tertiary hover:bg-primary"
+                >
+                  <img src={penIcon} alt="Edit" className="w-4 h-4" />
+                </NavLink>
+              )}
             </div>
           ))}
         </div>
@@ -80,5 +85,8 @@ const GallerySection = () => {
     </section>
   );
 };
+const mapStateToProps = (state) => ({
+  userInfo: state.userInfo,
+});
 
 export default GallerySection;

@@ -190,64 +190,6 @@ function ProductDetail(props) {
               alt={p.name}
               className="aspect-square object-cover rounded-full w-64"
             />
-            <section className="p-4 px-8 w-full shadow-primary rounded-xl flex flex-col gap-8">
-              <p className="font-bold text-left text-xl">Delivery and Time</p>
-              <div className="select-none"></div>
-              <div className="grid grid-cols-[20%_80%] items-center gap-y-8 mb-4">
-                <p>Now</p>
-                <div className="select-none">
-                  <ul className="flex flex-row gap-2 font-bold">
-                    <li>
-                      <input
-                        type="radio"
-                        id="now-true"
-                        name="now"
-                        value="1"
-                        checked={form.now === "1"}
-                        onChange={onChangeForm}
-                        className="hidden peer"
-                        required
-                      />
-                      <label
-                        htmlFor="now-true"
-                        className="inline-flex items-center justify-between p-2 px-7 text-gray-500 bg-[#BABABA59] rounded-lg cursor-pointer peer-checked:text-white peer-checked:bg-tertiary peer-checked:font-bold hover:text-gray-600 hover:bg-gray-100"
-                      >
-                        <div className="block">Yes</div>
-                      </label>
-                    </li>
-                    <li>
-                      <input
-                        type="radio"
-                        id="now-false"
-                        name="now"
-                        value="0"
-                        className="hidden peer"
-                        checked={form.now === "0"}
-                        onChange={onChangeForm}
-                        required
-                      />
-                      <label
-                        htmlFor="now-false"
-                        className="inline-flex items-center justify-between p-2 px-7 text-gray-500 bg-[#BABABA59] rounded-lg cursor-pointer peer-checked:text-white peer-checked:bg-tertiary peer-checked:font-bold hover:text-gray-600 hover:bg-gray-100"
-                      >
-                        <div className="block">No</div>
-                      </label>
-                    </li>
-                  </ul>
-                </div>
-                <p>Set time</p>
-                <div>
-                  <input
-                    type="time"
-                    name="time"
-                    id="reservationtime"
-                    value={form.time}
-                    onChange={onChangeForm}
-                    className="bg-[#BABABA59] py-2 px-8 rounded-lg text-primary font-bold"
-                  />
-                </div>
-              </div>
-            </section>
           </aside>
           <aside className="flex-1 flex flex-col gap-5 justify-between">
             <p className="font-black text-5xl uppercase w-full text-center mb-4">

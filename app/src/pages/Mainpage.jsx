@@ -8,7 +8,7 @@ import { Navigation } from "swiper/modules";
 import { Icon } from "@iconify/react";
 import locate from "@iconify-icons/mdi/location";
 import contact from "@iconify-icons/mdi/phone-in-talk-outline";
-import food1 from "../assets/food1.png";
+import food1 from "../assets/food2.png";
 import checkCircle from "../assets/icons/check-circle.svg";
 import checkIcon from "../assets/icons/check.svg";
 import loveIcon from "../assets/icons/love.svg";
@@ -107,7 +107,7 @@ class Mainpage extends Component {
                   <img
                     src={food1}
                     alt="Featured dish"
-                    className="max-w-full rounded-xl"
+                    className="max-w-full drop-shadow-[0_20px_25px_rgba(0,0,0,0.3)] "
                   />
                 </div>
               </section>
@@ -243,7 +243,10 @@ class Mainpage extends Component {
               </aside>
               <aside className="hidden lg:block lg:flex-1"></aside>
               <aside className="flex-1 flex flex-col justify-center text-xl text-[#ffffff]">
-                <button className="rounded-full bg-secondary px-6 py-3 text-tertiary font-poppins hover:bg-secondary-150 duration-250 flex items-center justify-center">
+                <button
+                  onClick={() => (window.location.href = "/products")}
+                  className="rounded-full bg-secondary px-6 py-3 text-tertiary font-poppins hover:bg-secondary-150 duration-250 flex items-center justify-center"
+                >
                   Lihat promo
                 </button>
               </aside>

@@ -26,3 +26,12 @@ input[type="number"] {
 .global-px {
   @apply mx-auto px-3 max-w-sm sm:max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-6xl;
 }
+
+.shadow-image {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 16px;
+  transition: box-shadow 0.3s ease;
+}
+.shadow-image:hover {
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+}
