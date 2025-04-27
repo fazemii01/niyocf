@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-
 import { isEmpty } from "lodash";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getPromos } from "../../utils/dataProvider/promo";
 
 import loadingImage from "../../assets/images/loading.svg";
 import productPlaceholder from "../../assets/images/placeholder-image.webp";
@@ -17,26 +17,49 @@ import { n_f } from "../../utils/helpers";
 
 function Cart() {
   const userInfo = useSelector((state) => state.userInfo);
+  const profile = useSelector((state) => state.profile);
+  const cartRedux = useSelector((state) => state.cart);
+  const cart = cartRedux.list;
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  // const [cart, setCart] = useState([]);
-  const cartRedux = useSelector((state) => state.cart);
-  const profile = useSelector((state) => state.profile);
-  const [remove, setRemove] = useState({
-    product_id: "",
-    size_id: "",
-  });
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const cart = cartRedux.list;
+  const [remove, setRemove] = useState({ product_id: "", size_id: "" }); // ✅ declare only once
   const [result, setResult] = useState("");
-
+  const [promos, setPromos] = useState([]);
   const [form, setForm] = useState({
+    // ✅ declare only once
     payment: "",
     delivery_address: "",
     notes: "",
     phone_number: "",
+    promo_id: null,
+    coupon_code: "",
   });
+
+  const originalTotal = cart.reduce((acc, cur) => acc + cur.price * cur.qty, 0);
+
+  const appliedPromo =
+    promos.length > 0 && form.promo_id
+      ? promos.find((promo) => promo.id === form.promo_id)
+      : null;
+
+  const discountedTotal = appliedPromo
+    ? Math.round(originalTotal * (1 - appliedPromo.discount / 100))
+    : originalTotal;
+
+  useEffect(() => {
+    const controller = new AbortController();
+    getPromos(controller)
+      .then((res) => {
+        setPromos(res.data.data || []);
+      })
+      .catch((err) => {
+        console.error("Failed to load promos", err);
+      });
+
+    return () => controller.abort();
+  }, []);
+
   useDocumentTitle("My Cart");
 
   function onChangeForm(e) {
@@ -46,6 +69,27 @@ function Cart() {
         [e.target.name]: e.target.value,
       };
     });
+  }
+  function redeemCoupon() {
+    const userCoupon = (form.coupon_code || "").trim().toUpperCase();
+
+    const foundPromo = promos.find(
+      (promo) => (promo.coupon_code || "").toUpperCase() === userCoupon
+    );
+
+    if (foundPromo) {
+      setForm((form) => ({
+        ...form,
+        promo_id: foundPromo.id,
+      }));
+      toast.success(`Promo "${foundPromo.name}" applied successfully! 🎉`);
+    } else {
+      setForm((form) => ({
+        ...form,
+        promo_id: null,
+      }));
+      toast.error("Invalid coupon code ❌");
+    }
   }
 
   useEffect(() => {
@@ -83,10 +127,10 @@ function Cart() {
     toggleEdit();
   };
 
-  const disabled = form.payment === "" || form.delivery_address === "";
+  const disabled = form.payment === "";
   const controller = useMemo(() => new AbortController());
   const payHandler = () => {
-    if (disabled) return;
+    if (form.payment === "") return;
     if (userInfo.token === "") {
       toast.error("Login to continue transaction");
       navigate("/auth/login");
@@ -95,13 +139,14 @@ function Cart() {
     if (editMode) return toast.error("You have unsaved changes");
     if (cart.length < 1)
       return toast.error("Add at least 1 product to your cart");
+
     setIsLoading(true);
+
     createTransaction(
       {
         payment_id: form.payment,
-        delivery_id: 1,
-        address: form.delivery_address,
         notes: form.notes,
+        promo_id: form.promo_id ? form.promo_id : null, // 💥 force to NULL if undefined / empty
       },
       cart,
       userInfo.token,
@@ -114,12 +159,13 @@ function Cart() {
       })
       .catch((err) => {
         console.log(err);
-        toast.error("An error ocurred, please check your internet connection");
+        toast.error("An error occurred, please check your internet connection");
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
+
   const closeRemoveModal = () => {
     setRemove({ product_id: "", size_id: "" });
   };
@@ -268,14 +314,48 @@ function Cart() {
                     <p className="flex-[2_2_0%]">Tax & Fees</p>
                     <p className="flex-1 lg:flex-none text-right">IDR 0</p>
                   </div>
-                  <div className="flex flex-row uppercase  lg:text-xl font-bold my-10">
+
+                  <div className="flex flex-row uppercase lg:text-xl font-bold my-10 items-center">
                     <p className="flex-[2_2_0%]">Total</p>
-                    <p className="flex-initial lg:flex-none">
-                      IDR{" "}
-                      {n_f(
-                        cart.reduce((acc, cur) => acc + cur.price * cur.qty, 0)
+                    <div className="flex flex-col lg:flex-row lg:gap-2 text-right">
+                      {appliedPromo ? (
+                        <>
+                          <span className="line-through text-gray-500">
+                            IDR {n_f(originalTotal)}
+                          </span>
+                          <span className="text-primary font-bold">
+                            ➔ IDR {n_f(discountedTotal)}
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-primary font-bold">
+                          IDR {n_f(originalTotal)}
+                        </span>
                       )}
-                    </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      name="coupon_code"
+                      placeholder="Enter coupon code"
+                      value={form.coupon_code || ""}
+                      onChange={(e) =>
+                        setForm((form) => ({
+                          ...form,
+                          coupon_code: e.target.value,
+                        }))
+                      }
+                      className="input input-bordered w-full"
+                    />
+                    <button
+                      type="button"
+                      onClick={redeemCoupon}
+                      className="btn btn-secondary w-full"
+                    >
+                      Redeem Coupon
+                    </button>
                   </div>
                 </section>
               </section>
@@ -325,71 +405,6 @@ function Cart() {
                 Payment method
               </section>
               <section className="bg-white rounded-xl  p-5 lg:p-7 space-y-3">
-                {/* <div className="flex gap-2 items-center">
-                  <input
-                    type="radio"
-                    className="accent-tertiary w-4 h-4"
-                    name="payment"
-                    value="1"
-                    id="paymentCard"
-                    checked={form.payment === "1"}
-                    onChange={onChangeForm}
-                  />
-                  <label
-                    htmlFor="paymentCard"
-                    className="flex items-center gap-2"
-                  >
-                    <svg
-                      width="40"
-                      height="40"
-                      viewBox="0 0 40 40"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <rect width="40" height="40" rx="10" fill="#F47B0A" />
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M13 15C13 14.4696 13.2107 13.9609 13.5858 13.5858C13.9609 13.2107 14.4696 13 15 13H27C27.5304 13 28.0391 13.2107 28.4142 13.5858C28.7893 13.9609 29 14.4696 29 15V23C29 23.5304 28.7893 24.0391 28.4142 24.4142C28.0391 24.7893 27.5304 25 27 25H15C14.4696 25 13.9609 24.7893 13.5858 24.4142C13.2107 24.0391 13 23.5304 13 23V15ZM15.5 16C15.3674 16 15.2402 16.0527 15.1464 16.1464C15.0527 16.2402 15 16.3674 15 16.5V17.5C15 17.6326 15.0527 17.7598 15.1464 17.8536C15.2402 17.9473 15.3674 18 15.5 18H17.5C17.6326 18 17.7598 17.9473 17.8536 17.8536C17.9473 17.7598 18 17.6326 18 17.5V16.5C18 16.3674 17.9473 16.2402 17.8536 16.1464C17.7598 16.0527 17.6326 16 17.5 16H15.5ZM15.5 19C15.3674 19 15.2402 19.0527 15.1464 19.1464C15.0527 19.2402 15 19.3674 15 19.5C15 19.6326 15.0527 19.7598 15.1464 19.8536C15.2402 19.9473 15.3674 20 15.5 20H20.5C20.6326 20 20.7598 19.9473 20.8536 19.8536C20.9473 19.7598 21 19.6326 21 19.5C21 19.3674 20.9473 19.2402 20.8536 19.1464C20.7598 19.0527 20.6326 19 20.5 19H15.5ZM15.5 21C15.3674 21 15.2402 21.0527 15.1464 21.1464C15.0527 21.2402 15 21.3674 15 21.5C15 21.6326 15.0527 21.7598 15.1464 21.8536C15.2402 21.9473 15.3674 22 15.5 22H16.5C16.6326 22 16.7598 21.9473 16.8536 21.8536C16.9473 21.7598 17 21.6326 17 21.5C17 21.3674 16.9473 21.2402 16.8536 21.1464C16.7598 21.0527 16.6326 21 16.5 21H15.5ZM18.5 21C18.3674 21 18.2402 21.0527 18.1464 21.1464C18.0527 21.2402 18 21.3674 18 21.5C18 21.6326 18.0527 21.7598 18.1464 21.8536C18.2402 21.9473 18.3674 22 18.5 22H19.5C19.6326 22 19.7598 21.9473 19.8536 21.8536C19.9473 21.7598 20 21.6326 20 21.5C20 21.3674 19.9473 21.2402 19.8536 21.1464C19.7598 21.0527 19.6326 21 19.5 21H18.5ZM21.5 21C21.3674 21 21.2402 21.0527 21.1464 21.1464C21.0527 21.2402 21 21.3674 21 21.5C21 21.6326 21.0527 21.7598 21.1464 21.8536C21.2402 21.9473 21.3674 22 21.5 22H22.5C22.6326 22 22.7598 21.9473 22.8536 21.8536C22.9473 21.7598 23 21.6326 23 21.5C23 21.3674 22.9473 21.2402 22.8536 21.1464C22.7598 21.0527 22.6326 21 22.5 21H21.5ZM24.5 21C24.3674 21 24.2402 21.0527 24.1464 21.1464C24.0527 21.2402 24 21.3674 24 21.5C24 21.6326 24.0527 21.7598 24.1464 21.8536C24.2402 21.9473 24.3674 22 24.5 22H25.5C25.6326 22 25.7598 21.9473 25.8536 21.8536C25.9473 21.7598 26 21.6326 26 21.5C26 21.3674 25.9473 21.2402 25.8536 21.1464C25.7598 21.0527 25.6326 21 25.5 21H24.5Z"
-                        fill="white"
-                      />
-                    </svg>
-                    Card
-                  </label>
-                </div>
-                <hr />
-                <div className="flex gap-2 items-center">
-                  <input
-                    type="radio"
-                    className="accent-tertiary w-4 h-4"
-                    name="payment"
-                    value="2"
-                    id="paymentBank"
-                    checked={form.payment === "2"}
-                    onChange={onChangeForm}
-                  />
-                  <label
-                    htmlFor="paymentBank"
-                    className="flex items-center gap-2"
-                  >
-                    <svg
-                      width="40"
-                      height="40"
-                      viewBox="0 0 40 40"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <rect width="40" height="40" rx="10" fill="#C4C4C4" />
-                      <rect width="40" height="40" rx="10" fill="#895537" />
-                      <path
-                        d="M20 11L13 15V16H27V15L20 11ZM15 17L14.8 24H17.3L17 17H15ZM19 17L18.8 24H21.3L21 17H19ZM23 17L22.8 24H25.3L25 17H23ZM13 27H27V25H13V27Z"
-                        fill="white"
-                      />
-                    </svg>
-                    Bank account
-                  </label>
-                </div>
-                <hr /> */}
                 <div className="flex gap-2 items-center">
                   <input
                     type="radio"

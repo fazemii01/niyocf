@@ -170,6 +170,9 @@ function Products(props) {
                     <div className="flex flex-col items-center text-center gap-1">
                       <h3 className="font-bold text-lg">{promo.name}</h3>
                       <p className="text-gray-600 text-sm">{promo.desc}</p>
+                      <p className="text-gray-600 text-sm">
+                        Kode Kupon {promo.coupon_code}
+                      </p>
                       <div className="mt-2">
                         <p className="text-primary text-xl font-bold">
                           Rp {promo.discounted_price.toLocaleString()}

@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import "swiper/css";
 import "swiper/css/navigation";
 import { NavLink } from "react-router-dom";
+import { getPromos } from "../../utils/dataProvider/promo";
+
 import { Navigation } from "swiper/modules";
 import penIcon from "../../assets/icons/icon-pen.svg";
 import productPlaceholder from "../../assets/images/placeholder-image.webp";
@@ -18,6 +20,8 @@ const MenuSlider = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [promos, setPromos] = useState([]);
+
   const [selectedCategory, setSelectedCategory] = useState(catId || "1");
   const { userInfo } = useSelector((state) => ({
     userInfo: state.userInfo,
@@ -32,6 +36,19 @@ const MenuSlider = () => {
   useEffect(() => {
     fetchProducts(selectedCategory);
   }, [selectedCategory, searchParams]);
+  useEffect(() => {
+    const controller = new AbortController();
+
+    getPromos(controller)
+      .then((res) => {
+        setPromos(res.data.data || []);
+      })
+      .catch((err) => {
+        console.error("Error fetching promos", err);
+      });
+
+    return () => controller.abort();
+  }, []);
 
   const fetchProducts = async (category) => {
     setLoading(true);
@@ -110,35 +127,58 @@ const MenuSlider = () => {
           }}
           className="mt-6"
         >
-          {products.map((product) => (
-            <SwiperSlide key={product.id} className="relative">
-              <div className="card bg-base-100 shadow-[0_4px_20px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-300 rounded-xl overflow-hidden relative">
-                <figure className="w-full h-60 overflow-hidden">
-                  <img
-                    src={product.img ? product.img : productPlaceholder}
-                    alt={product.name}
-                    className="w-full h-auto object-cover mt-[-110px]"
-                  />
-                </figure>
-                <div className="card-body p-4">
-                  <h3 className="font-semibold text-base truncate">
-                    {product.name}
-                  </h3>
-                  <p className="text-sm text-gray-500">
-                    IDR {product.price.toLocaleString()}
-                  </p>
+          {products.map((product) => {
+            const matchedPromo = promos.find(
+              (promo) => Number(promo.product_id) === product.id
+            );
+
+            return (
+              <SwiperSlide key={product.id} className="relative">
+                <div className="card bg-base-100 shadow-[0_4px_20px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-300 rounded-xl overflow-hidden relative">
+                  <figure className="w-full h-60 overflow-hidden">
+                    <img
+                      src={product.img ? product.img : productPlaceholder}
+                      alt={product.name}
+                      className="w-full h-auto object-cover mt-[-110px]"
+                    />
+                  </figure>
+                  <div className="card-body p-4 mt-2 text-center">
+                    <h3 className="font-semibold text-xl text-base truncate">
+                      {product.name}
+                    </h3>
+
+                    {/* ✅ Here we add discounted price and line-through original */}
+                    <div className="mt-2 text-center">
+                      {matchedPromo ? (
+                        <>
+                          <p className="text-primary text-xl font-bold">
+                            Rp {matchedPromo.discounted_price.toLocaleString()}
+                          </p>
+                          <p className="text-gray-400 text-sm line-through">
+                            Rp {matchedPromo.original_price.toLocaleString()}
+                          </p>
+                        </>
+                      ) : (
+                        <p className="text-primary text-xl font-bold">
+                          Rp {product.price.toLocaleString()}
+                        </p>
+                      )}
+                    </div>
+                    {/* ✅ Done here */}
+                  </div>
+
+                  {Number(userInfo.role) > 1 && (
+                    <NavLink
+                      to={`/products/edit/${product.id}`}
+                      className="btn btn-circle btn-sm absolute top-2 right-2 bg-secondary text-tertiary hover:bg-primary"
+                    >
+                      <img src={penIcon} alt="Edit" className="w-4 h-4" />
+                    </NavLink>
+                  )}
                 </div>
-                {Number(userInfo.role) > 1 && (
-                  <NavLink
-                    to={`/products/edit/${product.id}`}
-                    className="btn btn-circle btn-sm absolute top-2 right-2 bg-secondary text-tertiary hover:bg-primary"
-                  >
-                    <img src={penIcon} alt="Edit" className="w-4 h-4" />
-                  </NavLink>
-                )}
-              </div>
-            </SwiperSlide>
-          ))}
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       )}
     </section>
