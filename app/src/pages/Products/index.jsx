@@ -148,45 +148,56 @@ function Products(props) {
             ) : promo.length < 1 ? (
               <div className="flex flex-col text-center">
                 <img src={illustrationsPromo} width={200} />
-                <p className="text-tertiary font-poppins font-semibold">
-                  No promo today
-                </p>
+                <p className="text-tertiary font-semibold">No promo today</p>
                 <p className="text-black font-medium text-sm">
                   Dont worry, check tommorow
                 </p>
               </div>
             ) : (
-              promo.map((promo, idx) => (
-                <div
-                  className="flex flex-row items-center bg-slate-300  rounded-xl gap-2 px-4 py-3 relative"
-                  key={idx}
-                >
-                  <div className="flex-1 flex justify-center py-1">
-                    {/* <img src={promo.img || images} alt="" width="75px" /> */}
-                    <div className="avatar">
-                      <div className="w-24 rounded-xl">
-                        <img
-                          src={promo.img || images}
-                          className="mix-blend-multiply contrast-100"
-                        />
-                      </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                {promo.map((promo, idx) => (
+                  <div
+                    key={idx}
+                    className="relative bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow p-4 flex flex-col"
+                  >
+                    <div className="flex justify-center mb-4">
+                      <img
+                        src={promo.img || promo.product_img || images}
+                        alt="promo-img"
+                        className="w-32 h-32 object-cover rounded-lg"
+                      />
                     </div>
-                  </div>
-                  <div className="flex-[2_2_0%]">
-                    <p className="font-bold">{promo.name}</p>
-                    <p className="text-sm">{promo.desc}</p>
-                  </div>
+                    <div className="flex flex-col items-center text-center gap-1">
+                      <h3 className="font-bold text-lg">{promo.name}</h3>
+                      <p className="text-gray-600 text-sm">{promo.desc}</p>
+                      <div className="mt-2">
+                        <p className="text-primary text-xl font-bold">
+                          Rp {promo.discounted_price.toLocaleString()}
+                        </p>
+                        <p className="text-gray-400 text-sm line-through">
+                          Rp {promo.original_price.toLocaleString()}
+                        </p>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Until {new Date(promo.end_date).toLocaleDateString()}
+                      </p>
+                    </div>
 
-                  {Number(userInfo.role) > 1 && (
-                    <NavLink
-                      to={`/promo/edit/${promo.id}`}
-                      className="bg-tertiary absolute bottom-0 right-0 w-7 h-7 rounded-full flex items-center justify-center hover:bg-primary-focus"
-                    >
-                      <img src={penIcon} className="w-4 h-4" />
-                    </NavLink>
-                  )}
-                </div>
-              ))
+                    {Number(userInfo.role) > 1 && (
+                      <NavLink
+                        to={`/promo/edit/${promo.id}`}
+                        className="absolute top-3 right-3 bg-primary p-2 rounded-full shadow hover:bg-primary-focus"
+                      >
+                        <img
+                          src={penIcon}
+                          className="w-4 h-4"
+                          alt="edit-icon"
+                        />
+                      </NavLink>
+                    )}
+                  </div>
+                ))}
+              </div>
             )}
           </div>
           {Number(props.userInfo.role) > 1 && (
@@ -206,7 +217,7 @@ function Products(props) {
               <NavLink
                 className={({ isActive }) =>
                   isActive
-                    ? "font-poppins font-semibold text-tertiary border-b-2 border-tertiary pb-1 drop-shadow-lg"
+                    ? "font-semibold text-tertiary border-b-2 border-tertiary pb-1 drop-shadow-lg"
                     : "" +
                       " hover:drop-shadow-lg hover:border-b-2 border-tertiary pb-1"
                 }
@@ -220,7 +231,7 @@ function Products(props) {
               <NavLink
                 className={({ isActive }) =>
                   isActive
-                    ? "font-poppins font-semibold text-tertiary border-b-2 border-tertiary pb-1 drop-shadow-lg"
+                    ? "font-semibold text-tertiary border-b-2 border-tertiary pb-1 drop-shadow-lg"
                     : "" +
                       " hover:drop-shadow-lg hover:border-b-2 border-tertiary pb-1"
                 }
@@ -233,7 +244,7 @@ function Products(props) {
               <NavLink
                 className={({ isActive }) =>
                   isActive
-                    ? "font-poppins font-semibold text-tertiary border-b-2 border-tertiary pb-1 drop-shadow-lg"
+                    ? "font-semibold text-tertiary border-b-2 border-tertiary pb-1 drop-shadow-lg"
                     : "" +
                       " hover:drop-shadow-lg hover:border-b-2 border-tertiary pb-1"
                 }
@@ -246,7 +257,7 @@ function Products(props) {
               <NavLink
                 className={({ isActive }) =>
                   isActive
-                    ? "font-poppins font-semibold text-tertiary border-b-2 border-tertiary pb-1 drop-shadow-lg"
+                    ? "font-semibold text-tertiary border-b-2 border-tertiary pb-1 drop-shadow-lg"
                     : "" +
                       " hover:drop-shadow-lg hover:border-b-2 border-tertiary pb-1"
                 }
@@ -259,7 +270,7 @@ function Products(props) {
               <NavLink
                 className={({ isActive }) =>
                   isActive
-                    ? "font-poppins font-semibold text-tertiary border-b-2 border-tertiary pb-1 drop-shadow-lg"
+                    ? "font-semibold text-tertiary border-b-2 border-tertiary pb-1 drop-shadow-lg"
                     : "" +
                       " hover:drop-shadow-lg hover:border-b-2 border-tertiary pb-1"
                 }

@@ -7,10 +7,10 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        history: "url('/public/assets/images/cold-brew.webp')",
-        main: "url('/public/assets/images/bg-main-coffee.webp')",
-        profile: "url('/public/assets/images/bg-profile.webp')",
-        cart: "url('/public/assets/images/bg-cart.webp')",
+        history: "url('/public/assets/images/or2.png')",
+        main: "url('/public/assets/images/or2.png')",
+        profile: "url('/public/assets/images/bg2.jpeg')",
+        cart: "url('/public/assets/images/or2.png')",
       },
       fontFamily: {
         "lobster-two": ['"Lobster Two"', "cursive"],

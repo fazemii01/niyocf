@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useSelector } from "react-redux";
 import "swiper/css";
 import "swiper/css/navigation";
+import { NavLink } from "react-router-dom";
 import { Navigation } from "swiper/modules";
+import penIcon from "../../assets/icons/icon-pen.svg";
 import productPlaceholder from "../../assets/images/placeholder-image.webp";
 import loadingImage from "../../assets/images/loading.svg";
 import emptyBox from "../../assets/images/empty.svg";
@@ -16,7 +19,9 @@ const MenuSlider = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(catId || "1");
-
+  const { userInfo } = useSelector((state) => ({
+    userInfo: state.userInfo,
+  }));
   const categories = [
     { id: "1", name: "Coffee", icon: "ti-coffee" },
     { id: "2", name: "Non Coffee", icon: "ti-cup" },
@@ -123,6 +128,14 @@ const MenuSlider = () => {
                     IDR {product.price.toLocaleString()}
                   </p>
                 </div>
+                {Number(userInfo.role) > 1 && (
+                  <NavLink
+                    to={`/products/edit/${product.id}`}
+                    className="btn btn-circle btn-sm absolute top-2 right-2 bg-secondary text-tertiary hover:bg-primary"
+                  >
+                    <img src={penIcon} alt="Edit" className="w-4 h-4" />
+                  </NavLink>
+                )}
               </div>
             </SwiperSlide>
           ))}
@@ -131,5 +144,8 @@ const MenuSlider = () => {
     </section>
   );
 };
+const mapStateToProps = (state) => ({
+  userInfo: state.userInfo,
+});
 
 export default MenuSlider;

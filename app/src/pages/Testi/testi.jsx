@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { NavLink } from "react-router-dom";
+import penIcon from "../../assets/icons/icon-pen.svg";
+import { useSelector } from "react-redux";
 import phProfile from "../../assets/images/person-with-a-coffee.webp";
 import loadingImage from "../../assets/images/loading.svg";
 import emptyBox from "../../assets/images/empty.svg";
@@ -8,7 +11,9 @@ import starIcon from "../../assets/icons/star.svg";
 const TestimonialIndex = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const { userInfo } = useSelector((state) => ({
+    userInfo: state.userInfo,
+  }));
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
@@ -53,8 +58,18 @@ const TestimonialIndex = () => {
           {testimonials.map(({ id, name, location, rating, text, image }) => (
             <div
               key={id}
-              className="w-[360px] border rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300"
+              className="relative w-[360px] border rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300"
             >
+              {/* Edit button */}
+              {Number(userInfo.role) > 1 && (
+                <NavLink
+                  to={`/testi/edit/${id}`}
+                  className="btn btn-circle btn-sm absolute top-4 right-4 bg-secondary text-tertiary hover:bg-primary z-10"
+                >
+                  <img src={penIcon} alt="Edit" className="w-4 h-4" />
+                </NavLink>
+              )}
+
               <div className="flex items-center gap-4 mb-4">
                 <img
                   src={image || phProfile}
@@ -78,5 +93,8 @@ const TestimonialIndex = () => {
     </section>
   );
 };
+const mapStateToProps = (state) => ({
+  userInfo: state.userInfo,
+});
 
 export default TestimonialIndex;

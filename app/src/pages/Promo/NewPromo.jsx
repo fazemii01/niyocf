@@ -176,12 +176,10 @@ const NewPromo = (props) => {
       <Header />
       <main className="global-px py-6">
         <nav className="flex flex-row list-none gap-1">
-          <li className="after:content-['>'] after:font-poppins font-semibold text-primary">
+          <li className="after:content-['>'] after:font-semibold text-primary">
             <NavLink to="/products">Favorite & Promo </NavLink>
           </li>
-          <li className="text-tertiary font-poppins font-semibold">
-            Add new promo
-          </li>
+          <li className="text-tertiary font-semibold">Add new promo</li>
         </nav>
         <section className="flex flex-col md:flex-row py-14">
           <section className="flex-1 flex flex-col items-center gap-4">
@@ -401,12 +399,12 @@ const NewPromo = (props) => {
               placeholder="Type promo coupon code 6-12 characters"
               name="coupon_code"
               id="coupon_code"
-              value={(form.coupon_code || "").toUpperCase()} // Ensure it's not undefined
+              value={form.coupon_code.toUpperCase()}
               onChange={formChangeHandler}
               maxLength={12}
               required
               className="border-b-2 py-2 border-gray-300 focus:border-tertiary outline-none"
-            />
+            ></input>
 
             {/* valid promo date */}
             <label
@@ -428,7 +426,7 @@ const NewPromo = (props) => {
                 setForm({
                   ...form,
                   startDate: e.startDate,
-                  endDate: e.startDate,
+                  endDate: e.endDate,
                   start_date: e.startDate,
                   end_date: e.endDate,
                 })
