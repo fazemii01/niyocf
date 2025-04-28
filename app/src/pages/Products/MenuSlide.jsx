@@ -7,7 +7,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { NavLink } from "react-router-dom";
 import { getPromos } from "../../utils/dataProvider/promo";
-
 import { Navigation } from "swiper/modules";
 import penIcon from "../../assets/icons/icon-pen.svg";
 import productPlaceholder from "../../assets/images/placeholder-image.webp";
@@ -21,11 +20,12 @@ const MenuSlider = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [promos, setPromos] = useState([]);
-
   const [selectedCategory, setSelectedCategory] = useState(catId || "1");
+
   const { userInfo } = useSelector((state) => ({
     userInfo: state.userInfo,
   }));
+
   const categories = [
     { id: "1", name: "Coffee", icon: "ti-coffee" },
     { id: "2", name: "Non Coffee", icon: "ti-cup" },
@@ -34,11 +34,11 @@ const MenuSlider = () => {
   ];
 
   useEffect(() => {
-    fetchProducts(selectedCategory);
-  }, [selectedCategory, searchParams]);
+    fetchProducts();
+  }, [searchParams]);
+
   useEffect(() => {
     const controller = new AbortController();
-
     getPromos(controller)
       .then((res) => {
         setPromos(res.data.data || []);
@@ -46,18 +46,22 @@ const MenuSlider = () => {
       .catch((err) => {
         console.error("Error fetching promos", err);
       });
-
     return () => controller.abort();
   }, []);
 
-  const fetchProducts = async (category) => {
+  useEffect(() => {
+    if (catId) {
+      setSelectedCategory(catId);
+    }
+  }, [catId]);
+
+  const fetchProducts = async () => {
     setLoading(true);
     try {
       const response = await axios.get("http://localhost:5500/apiv1/products", {
         params: {
-          category_id: category,
           page: searchParams.get("page") || 1,
-          limit: 8,
+          limit: 1000,
           sort: searchParams.get("sort") || "id_desc",
           orderBy: searchParams.get("orderBy") || "name",
           q: searchParams.get("q") || "",
@@ -81,6 +85,10 @@ const MenuSlider = () => {
     navigate(`/category/${categoryId}`);
     setSearchParams({ page: 1 });
   };
+
+  const filteredProducts = products.filter(
+    (product) => String(product.category_id) === selectedCategory
+  );
 
   return (
     <section className="max-w-6xl mx-auto px-4 py-10">
@@ -110,7 +118,7 @@ const MenuSlider = () => {
         <div className="flex justify-center">
           <img src={loadingImage} alt="Loading" className="w-20 h-20" />
         </div>
-      ) : products.length === 0 ? (
+      ) : filteredProducts.length === 0 ? (
         <div className="flex flex-col items-center">
           <img src={emptyBox} alt="Empty" className="w-40 h-40" />
           <p className="text-center">No products available in this category.</p>
@@ -127,7 +135,7 @@ const MenuSlider = () => {
           }}
           className="mt-6"
         >
-          {products.map((product) => {
+          {filteredProducts.map((product) => {
             const matchedPromo = promos.find(
               (promo) => Number(promo.product_id) === product.id
             );
@@ -146,8 +154,6 @@ const MenuSlider = () => {
                     <h3 className="font-semibold text-xl text-base truncate">
                       {product.name}
                     </h3>
-
-                    {/* ✅ Here we add discounted price and line-through original */}
                     <div className="mt-2 text-center">
                       {matchedPromo ? (
                         <>
@@ -164,7 +170,6 @@ const MenuSlider = () => {
                         </p>
                       )}
                     </div>
-                    {/* ✅ Done here */}
                   </div>
 
                   {Number(userInfo.role) > 1 && (
@@ -184,8 +189,5 @@ const MenuSlider = () => {
     </section>
   );
 };
-const mapStateToProps = (state) => ({
-  userInfo: state.userInfo,
-});
 
 export default MenuSlider;

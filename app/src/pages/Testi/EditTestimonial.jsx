@@ -54,7 +54,7 @@ const EditTestimonial = () => {
       const token = userInfo?.token || localStorage.getItem("token");
       await updateTestimonialEntry(id, form, token, controller);
       toast.success("Testimonial updated");
-      navigate("/testimonial");
+      navigate("/");
     } catch (err) {
       toast.error(err.message || "Failed to update testimonial");
     } finally {
