@@ -33,7 +33,7 @@ class Footer extends Component {
                   <img src={fbLogo} alt="" />
                 </a>
                 <a
-                  href="#"
+                  href="https://www.instagram.com/niyo.coffee/?hl=en"
                   className="bg-tertiary h-[35px] w-[35px] flex items-center justify-center rounded-full"
                 >
                   <img src={igLogo} alt="" />
