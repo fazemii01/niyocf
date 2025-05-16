@@ -107,7 +107,7 @@ const EditGallery = (props) => {
       controller
     )
       .then(() => {
-        navigate("/gallery", { replace: true });
+        navigate("/", { replace: true });
         toast.success("Gallery updated successfully");
       })
       .catch((err) => {

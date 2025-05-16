@@ -94,7 +94,6 @@ export const EditProduct = (props) => {
       return toast.error("Files must not exceed 2 MB");
     }
 
-    // I've kept this example simple by using the first image instead of multiple
     setForm({ ...form, image: e.target.files[0] });
   };
 
@@ -119,7 +118,7 @@ export const EditProduct = (props) => {
     editProductEntry(form, productId, props.userInfo.token, controller)
       .then((result) => {
         // console.log(result.data);
-        navigate(`/products/detail/${result.data.data[0].id}`, {
+        navigate(`/products/`, {
           replace: true,
         });
         toast.success("Product updated successfully");

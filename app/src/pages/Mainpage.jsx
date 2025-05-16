@@ -186,7 +186,10 @@ class Mainpage extends Component {
             <div className="mx-auto my-0 bg-white max-w-[1440px] font-['Montserrat']">
               <Galery />
             </div>
-            <div className="mx-auto my-0 bg-white max-w-[1440px] font-['Montserrat']">
+            <div
+              id="testi-section"
+              className="mx-auto my-0 bg-white max-w-[1440px] font-['Montserrat']"
+            >
               <Testi />
             </div>
           </section>

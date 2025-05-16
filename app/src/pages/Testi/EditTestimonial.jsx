@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Modal from "../../components/Modal";
+import DeleteTestimonial from "../../components/Testi/DeleteTestimonial";
 import placeholderProfile from "../../assets/images/placeholder-profile.jpg";
 
 const EditTestimonial = () => {
@@ -29,6 +30,7 @@ const EditTestimonial = () => {
   const [preview, setPreview] = useState("");
   const [cancel, setCancel] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -162,10 +164,27 @@ const EditTestimonial = () => {
             >
               Reset
             </button>
+            <button
+              type="button"
+              onClick={() => setIsDeleteModalOpen(true)}
+              className="btn btn-lg btn-error text-white mt-2"
+            >
+              Delete Testimonial
+            </button>
           </form>
         </section>
       </main>
       <Footer />
+      <DeleteTestimonial
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        testimonialId={id}
+        testimonialName={form.name}
+        onSuccess={() => {
+          toast.info("Redirecting after deletion...");
+          navigate("/");
+        }}
+      />
     </>
   );
 };

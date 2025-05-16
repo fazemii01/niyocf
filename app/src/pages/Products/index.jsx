@@ -367,7 +367,7 @@ function Products(props) {
           </Routes>
 
           <section className="my-6 text-tertiary">
-            *the price has been cutted by discount appears
+            *harga akan mendapat potongan jika sudah me-redeem kode diskon
           </section>
           {Number(props.userInfo.role) > 1 && (
             <div className="mt-auto flex w-full">

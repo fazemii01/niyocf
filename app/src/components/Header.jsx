@@ -39,7 +39,6 @@ const mapDispatchToProps = (dispatch) => ({
   openLogout: () => dispatch(contextAct.openLogout()),
 });
 
-// create a navigation component that wraps the burger menu
 const Navigation = () => {
   const ctx = useContext(contextAct);
 
@@ -67,6 +66,40 @@ class Header extends Component {
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.handleClickOutsideSearch = this.handleClickOutsideSearch.bind(this);
+    this.handleKontakScroll = this.handleKontakScroll.bind(this);
+  }
+
+  handleKontakScroll(event) {
+    event.preventDefault();
+    const targetId = "testi-section";
+    const targetElement = document.getElementById(targetId);
+
+    if (window.location.pathname === "/") {
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        console.warn(
+          "Element with id '" + targetId + "' not found on the current page."
+        );
+      }
+    } else {
+      this.props.navigate("/");
+      setTimeout(() => {
+        const elementOnTargetPage = document.getElementById(targetId);
+        if (elementOnTargetPage) {
+          elementOnTargetPage.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        } else {
+          console.warn(
+            "Element with id '" +
+              targetId +
+              "' not found after navigating to '/'."
+          );
+        }
+      }, 500);
+    }
   }
 
   navigateTo(path) {
@@ -241,15 +274,14 @@ class Header extends Component {
                   Produk
                 </NavLink>
               </li>
-              <li className="list-none" key="Cart">
-                <NavLink
-                  to="#"
-                  className={({ isActive }) =>
-                    isActive ? "font-poppins font-medium text-[#000000]" : ""
-                  }
+              <li className="list-none" key="Testimoni">
+                <a
+                  href="/#testi-section"
+                  onClick={this.handleKontakScroll}
+                  className="font-poppins text-[#4F5665] hover:text-[#000000]"
                 >
-                  Kontak
-                </NavLink>
+                  Testimoni
+                </a>
               </li>
             </nav>
             {isAuthenticated() ? (
@@ -446,6 +478,18 @@ class Header extends Component {
                             </NavLink>
                           </div>
                         )}
+                        {Number(this.props.userInfo.role) === 2 ||
+                        Number(this.props.userInfo.role) === 1 ? (
+                          <div className="py-1">
+                            <NavLink
+                              className="block px-4 py-2 hover:bg-gray-100 duration-200"
+                              to="/cart"
+                            >
+                              Order
+                            </NavLink>
+                          </div>
+                        ) : null}
+
                         <div className="py-1">
                           <a
                             className="block px-4 py-2 hover:bg-gray-100 duration-200 cursor-pointer"
