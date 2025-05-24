@@ -18,7 +18,7 @@ app.use(cors());
 app.use(cors({ origin: "*" }));
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://your-frontend.vercel.app"],
+    origin: ["http://localhost:3000", "https://niyocf-frontend.vercel.app"],
   })
 );
 
