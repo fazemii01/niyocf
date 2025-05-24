@@ -16,7 +16,11 @@ const { APP_PORT } = process.env;
 
 app.use(cors());
 app.use(cors({ origin: "*" }));
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://your-frontend.vercel.app"],
+  })
+);
 
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
