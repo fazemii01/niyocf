@@ -10,13 +10,13 @@ export function getAllProducts(
   controller
 ) {
   const params = { orderBy, sort, searchByName, limit, page };
-  const url = `${host}/apiv1/products?category=${catId}`;
+  const url = `${host}apiv1/products?category=${catId}`;
 
   return axios.get(url, { params, signal: controller.signal });
 }
 
 export function getProductbyId(productId, controller) {
-  const url = `${host}/apiv1/products/${productId}`;
+  const url = `${host}apiv1/products/${productId}`;
 
   return axios.get(url, {
     signal: controller.signal,

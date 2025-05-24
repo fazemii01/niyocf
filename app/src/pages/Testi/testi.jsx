@@ -17,7 +17,9 @@ const TestimonialIndex = () => {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const res = await axios.get("http://localhost:5500/apiv1/testimonial");
+        const res = await axios.get(
+          `${process.env.REACT_APP_BACKEND_HOST}apiv1/testimonial`
+        );
         setTestimonials(res.data?.data || []);
       } catch (err) {
         console.error("Error loading testimonials", err);

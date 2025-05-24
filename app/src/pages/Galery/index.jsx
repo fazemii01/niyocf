@@ -16,7 +16,9 @@ const GalleryIndex = () => {
   useEffect(() => {
     const fetchGallery = async () => {
       try {
-        const res = await axios.get("http://localhost:5500/apiv1/gallery");
+        const res = await axios.get(
+          `${process.env.REACT_APP_BACKEND_HOST}apiv1/gallery`
+        );
         setItems(res.data?.data || []);
       } catch (error) {
         console.error("Error fetching gallery:", error);

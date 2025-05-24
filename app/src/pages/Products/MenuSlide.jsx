@@ -58,15 +58,18 @@ const MenuSlider = () => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:5500/apiv1/products", {
-        params: {
-          page: searchParams.get("page") || 1,
-          limit: 1000,
-          sort: searchParams.get("sort") || "id_desc",
-          orderBy: searchParams.get("orderBy") || "name",
-          q: searchParams.get("q") || "",
-        },
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_HOST}apiv1/products`,
+        {
+          params: {
+            page: searchParams.get("page") || 1,
+            limit: 1000,
+            sort: searchParams.get("sort") || "id_desc",
+            orderBy: searchParams.get("orderBy") || "name",
+            q: searchParams.get("q") || "",
+          },
+        }
+      );
 
       if (response.data && response.data.data) {
         setProducts(response.data.data);
