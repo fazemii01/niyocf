@@ -1,0 +1,45 @@
+{
+  "name": "niyocf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "app": "nodemon index.js"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
+    "cloudinary": "^1.35.0",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "datauri": "^4.1.0",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-list-routes": "^1.2.4",
+    "firebase-admin": "^11.8.0",
+    "google-auth-library": "^8.8.0",
+    "jokopi": "file:",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.1",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "mustache": "^4.2.0",
+    "niyocf": "file:",
+    "nodemailer": "^6.9.3",
+    "nodemon": "^2.0.20",
+    "pg": "^8.9.0",
+    "sharp": "^0.32.6",
+    "streamifier": "^0.1.1",
+    "twilio": "^5.6.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.35.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}

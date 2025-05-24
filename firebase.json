@@ -1,0 +1,33 @@
+{
+  "functions": [
+    {
+      "source": "serve",
+      "codebase": "api",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.env"
+      ],
+      "runtime": "nodejs20"
+    }
+  ],
+  "hosting": {
+    "public": "app/build",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "/apiv1/**",
+        "function": {
+          "functionId": "api",
+          "region": "asia-southeast2"
+        }
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
