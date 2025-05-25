@@ -172,7 +172,7 @@ function Cart() {
             form.phone_number || profile.data?.phone_number;
           const orderTotal = appliedPromo ? discountedTotal : originalTotal;
           const orderDate = new Date().toISOString(); // Current date as ISO string
-          const invoiceLink = `${transactionId}`;
+          const invoiceLink = `invoice/${transactionId}`;
 
           if (customerPhoneNumber) {
             sendWhatsappInvoiceNotification(
@@ -181,8 +181,8 @@ function Cart() {
                 customerPhoneNumber,
                 orderTotal,
                 orderDate,
-                invoiceLink: transactionId.toString(), // Send only the transactionId for template vars 5 & 7
-                transactionId: transactionId.toString(), // Send integer ID for template var 6 (this is fine, can be the same value)
+                invoiceLink: transactionId.toString(),
+                transactionId: transactionId.toString(),
               },
               userInfo.token
             )
