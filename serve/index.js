@@ -2,7 +2,7 @@ import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
-import routers from "../../src/routers/index.js"; // adjust path if needed
+import routers from "/src/routers/index.js"; // adjust path if needed
 
 const app = express();
 
