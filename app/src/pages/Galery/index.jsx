@@ -17,7 +17,7 @@ const GalleryIndex = () => {
     const fetchGallery = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_BACKEND_HOST}apiv1/gallery`
+          `${process.env.REACT_APP_BACKEND_HOST}/apiv1/gallery`
         );
         setItems(res.data?.data || []);
       } catch (error) {

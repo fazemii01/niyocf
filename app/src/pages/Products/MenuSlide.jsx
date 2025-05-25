@@ -59,7 +59,7 @@ const MenuSlider = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_HOST}apiv1/products`,
+        `${process.env.REACT_APP_BACKEND_HOST}/apiv1/products`,
         {
           params: {
             page: searchParams.get("page") || 1,
