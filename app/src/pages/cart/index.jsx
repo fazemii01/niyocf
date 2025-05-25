@@ -181,8 +181,8 @@ function Cart() {
                 customerPhoneNumber,
                 orderTotal,
                 orderDate,
-                invoiceLink,
-                transactionId,
+                invoiceLink: transactionId.toString(), // Send only the transactionId for template vars 5 & 7
+                transactionId: transactionId.toString(), // Send integer ID for template var 6 (this is fine, can be the same value)
               },
               userInfo.token
             )
