@@ -1,5 +1,3 @@
-import "dotenv/config";
-
 import cors from "cors";
 // dotenv.config();
 import express from "express"; // express js
@@ -40,7 +38,12 @@ app.use(express.static("public"));
 expressListRoutes(app);
 mongoose
   .connect(
-    `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@${process.env.MONGODB_HOST}/${process.env.MONGODB_NAME}?retryWrites=true&w=majority&appName=Cluster0`
+    `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@${process.env.MONGODB_HOST}/${process.env.MONGODB_NAME}?retryWrites=true&w=majority&appName=Cluster0`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 10000,
+    }
   )
   .then(() => {
     console.log("Mongo DB Connected");
