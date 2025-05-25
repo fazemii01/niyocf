@@ -1,16 +1,10 @@
 import cors from "cors";
-// dotenv.config();
-import express from "express"; // express js
+import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
-
-// routes
-import routers from "./src/routers/index.js";
-import expressListRoutes from "express-list-routes";
+import routers from "../../src/routers/index.js"; // adjust path if needed
 
 const app = express();
-
-const { APP_PORT } = process.env;
 
 app.use(
   cors({
@@ -22,35 +16,34 @@ app.use(
 );
 
 app.options("*", cors());
-
-app.use(
-  morgan(":method :url :status :res[content-length] - :response-time ms")
-);
-
-app.use(express.json()); // body json
-app.use(express.urlencoded({ extended: false })); // form-urlencoded
-
+app.use(morgan("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(routers);
-// using public folders
 app.use(express.static("public"));
 
-// start server with mongoose (mongodb module)
-expressListRoutes(app);
-mongoose
-  .connect(
-    `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@${process.env.MONGODB_HOST}/${process.env.MONGODB_NAME}?retryWrites=true&w=majority&appName=Cluster0`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 10000,
-    }
-  )
-  .then(() => {
-    console.log("Mongo DB Connected");
-    app.listen(APP_PORT, () => {
-      console.log(`Server is running at port ${APP_PORT}`);
-    });
-  })
-  .catch((err) => console.log(err));
+let isConnected = false; // prevent multiple connections
 
-export default app;
+const handler = async (req, res) => {
+  if (!isConnected) {
+    try {
+      await mongoose.connect(
+        `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@${process.env.MONGODB_HOST}/${process.env.MONGODB_NAME}?retryWrites=true&w=majority&appName=Cluster0`,
+        {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+          serverSelectionTimeoutMS: 10000,
+        }
+      );
+      isConnected = true;
+      console.log("MongoDB connected.");
+    } catch (err) {
+      console.error("MongoDB connection error:", err);
+      return res.status(500).send("Database connection error.");
+    }
+  }
+
+  return app(req, res); // this lets Express handle the request
+};
+
+export default handler;
