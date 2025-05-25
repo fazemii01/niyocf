@@ -14,13 +14,16 @@ const app = express();
 
 const { APP_PORT } = process.env;
 
-app.use(cors());
-app.use(cors({ origin: "*" }));
 app.use(
   cors({
     origin: ["http://localhost:3000", "https://niyocf-frontend.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
+
+app.options("*", cors());
 
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
