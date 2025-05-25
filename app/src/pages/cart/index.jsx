@@ -172,7 +172,7 @@ function Cart() {
             form.phone_number || profile.data?.phone_number;
           const orderTotal = appliedPromo ? discountedTotal : originalTotal;
           const orderDate = new Date().toISOString(); // Current date as ISO string
-          const invoiceLink = `${window.location.origin}/invoice/${transactionId}`;
+          const invoiceLink = `${transactionId}`;
 
           if (customerPhoneNumber) {
             sendWhatsappInvoiceNotification(
