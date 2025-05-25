@@ -9,8 +9,7 @@ const app = express();
 app.use(
   cors({
     origin: ["http://localhost:3000", "https://niyocf-frontend.vercel.app"],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"], // Add PATCH here
-    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     credentials: true,
   })
 );

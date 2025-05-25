@@ -86,7 +86,7 @@ export const NewProduct = (props) => {
     createProductEntry(form, props.userInfo.token, controller)
       .then((result) => {
         console.log(result.data);
-        navigate(`/products/detail/${result.data.data[0].id}`, {
+        navigate(`/products/`, {
           replace: true,
         });
         toast.success("Product added successfully");
