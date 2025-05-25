@@ -40,7 +40,7 @@ app.use(express.static("public"));
 expressListRoutes(app);
 mongoose
   .connect(
-    `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@${process.env.MONGODB_HOST}/${process.env.MONGODB_NAME}?retryWrites=true&w=majority`
+    `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@${process.env.MONGODB_HOST}/${process.env.MONGODB_NAME}?retryWrites=true&w=majority&appName=Cluster0`
   )
   .then(() => {
     console.log("Mongo DB Connected");
