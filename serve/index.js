@@ -2,14 +2,14 @@ import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
-import routers from "./src/routers/index.js"; // adjust path if needed
+import routers from "./src/routers/index.js";
 
 const app = express();
 
 app.use(
   cors({
     origin: ["http://localhost:3000", "https://niyocf-frontend.vercel.app"],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"], // Add PATCH here
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(routers);
 app.use(express.static("public"));
 
-let isConnected = false; // prevent multiple connections
+let isConnected = false;
 
 const handler = async (req, res) => {
   if (!isConnected) {
@@ -43,7 +43,7 @@ const handler = async (req, res) => {
     }
   }
 
-  return app(req, res); // this lets Express handle the request
+  return app(req, res);
 };
 
 export default handler;
