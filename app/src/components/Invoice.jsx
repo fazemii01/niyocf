@@ -18,10 +18,14 @@ const Invoice = ({ invoiceData }) => {
     discount, // Assuming discount is a monetary value
     taxRate, // Assuming taxRate is a percentage e.g., 0.10 for 10%
     paymentMethod,
+    paymentFee, // Added
+    grandTotal, // Added
+    promoName, // Added
   } = invoiceData;
 
-  const taxAmount = subtotal * taxRate;
-  const total = subtotal - (discount || 0) + taxAmount;
+  // const taxAmount = subtotal * taxRate; // taxRate is 0, so taxAmount is 0
+  // The grandTotal from invoiceData is the authoritative final total.
+  // We display components: subtotal, discount, paymentFee, and then grandTotal.
 
   // Helper function to format currency to IDR
   const formatIDR = (amount) => {
@@ -100,26 +104,38 @@ const Invoice = ({ invoiceData }) => {
           </div>
           {discount > 0 && (
             <div className="flex justify-between mb-2">
-              <span className="text-gray-700">Diskon:</span>
+              <span className="text-gray-700">
+                Diskon {promoName ? `(${promoName})` : "(Promo)"}:
+              </span>
               <span className="text-red-500 font-semibold">
                 -{formatIDR(discount)}
               </span>
             </div>
           )}
-          {taxAmount !== 0 && ( // Conditionally render tax line
+          {/* Tax is currently 0, so taxAmount line can be omitted or kept conditional if tax might be added later */}
+          {/* {taxRate > 0 && (
             <div className="flex justify-between mb-2">
               <span className="text-gray-700">
                 Pajak ({(taxRate * 100).toFixed(0)}%):
               </span>
               <span className="text-gray-800 font-semibold">
-                {formatIDR(taxAmount)}
+                {formatIDR(subtotal * taxRate)}
+              </span>
+            </div>
+          )} */}
+          {paymentFee > 0 && (
+            <div className="flex justify-between mb-2">
+              <span className="text-gray-700">Biaya Pembayaran:</span>
+              <span className="text-gray-800 font-semibold">
+                {formatIDR(paymentFee)}
               </span>
             </div>
           )}
           <hr className="my-2 border-gray-300" />
           <div className="flex justify-between text-xl font-bold">
-            <span>Total:</span>
-            <span>{formatIDR(total)}</span>
+            <span>Total Keseluruhan:</span>
+            <span>{formatIDR(grandTotal)}</span>{" "}
+            {/* Use grandTotal from props */}
           </div>
         </div>
       </div>

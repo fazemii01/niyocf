@@ -71,10 +71,14 @@ const InvoicePage = () => {
               transaction.delivery_address || "N/A (Pickup or No Address)",
             clientCityStateZip: "", // Placeholder, not in transaction data
             items: items,
-            subtotal: calculatedSubtotal,
-            discount: 0, // Not in current transaction data, default to 0
-            taxRate: 0, // Set taxRate to 0 as per user request
+            subtotal: transaction.subtotal_amount || calculatedSubtotal, // Prefer subtotal_amount from transaction if available
+            discount: transaction.discount_amount || 0,
+            paymentFee: transaction.payment_fee || 0, // Add payment fee
+            grandTotal: transaction.grand_total, // Pass the final grand total
+            taxRate: 0, // Tax rate is 0 as per previous setup
             paymentMethod: transaction.payment_name || "N/A",
+            promoName: transaction.promo_name || null, // Pass promo name if available
+            // promoCouponCode: transaction.promo_coupon_code || null, // If coupon code is also available
           };
           setInvoiceData(transformedData);
         } else {

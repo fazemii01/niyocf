@@ -256,18 +256,48 @@ function HistoryDetail() {
             </div>
           </section>
 
-          <section className="flex justify-end items-center pt-4 border-t">
-            <div className="text-right">
-              {transaction.payment_fee > 0 && (
-                <p className="text-md text-gray-600">
-                  Biaya Pembayaran: {n_f(transaction.payment_fee)}{" "}
-                  {/* Translated */}
-                </p>
+          <section className="flex justify-end items-start pt-4 border-t mt-6">
+            {" "}
+            {/* items-start & mt-6 */}
+            <div className="text-right space-y-1 w-full max-w-xs">
+              {" "}
+              {/* Added w-full and max-w-xs for better layout */}
+              <div className="flex justify-between">
+                <span className="text-md text-gray-600">Subtotal Produk:</span>
+                <span className="text-md text-gray-800">
+                  {n_f(transaction.subtotal_amount)}
+                </span>
+              </div>
+              {transaction.discount_amount > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-md text-gray-600">
+                    Diskon ({transaction.promo_name || "Promo"}):
+                  </span>
+                  <span className="text-md text-red-600">
+                    -{n_f(transaction.discount_amount)}
+                  </span>
+                </div>
               )}
-              <p className="text-2xl font-bold text-gray-800">
-                Total Keseluruhan: {n_f(transaction.grand_total)}{" "}
-                {/* Translated */}
-              </p>
+              {transaction.payment_fee > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-md text-gray-600">
+                    Biaya Pembayaran:
+                  </span>
+                  <span className="text-md text-gray-800">
+                    {n_f(transaction.payment_fee)}
+                  </span>
+                </div>
+              )}
+              <div className="flex justify-between pt-2 border-t border-gray-300 mt-2">
+                {" "}
+                {/* Separator for grand total */}
+                <span className="text-xl font-bold text-gray-800">
+                  Total Keseluruhan:
+                </span>
+                <span className="text-xl font-bold text-gray-800">
+                  {n_f(transaction.grand_total)}
+                </span>
+              </div>
             </div>
           </section>
         </div>
