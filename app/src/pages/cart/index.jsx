@@ -310,7 +310,30 @@ function Cart() {
                         </aside>
                         <aside className="flex-[2_2_0%]">
                           <p className="font-semibold">{list.name}</p>
-                          <div className="flex gap-2">
+                          {(() => {
+                            const productPromo = promos.find(
+                              (p) =>
+                                p.product_id === list.product_id &&
+                                new Date(p.end_date).setHours(
+                                  23,
+                                  59,
+                                  59,
+                                  999
+                                ) >= new Date()
+                            );
+                            if (productPromo) {
+                              return (
+                                <div className="text-xs text-green-600 mt-1">
+                                  <p>
+                                    Promo: {productPromo.name} (
+                                    {productPromo.discount}% off)
+                                  </p>
+                                </div>
+                              );
+                            }
+                            return null;
+                          })()}
+                          <div className="flex gap-2 mt-1">
                             <button
                               onClick={() => {
                                 if (list.qty - 1 < 1)
