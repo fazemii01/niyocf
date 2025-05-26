@@ -451,6 +451,53 @@ function Cart() {
                     </button>
                   </div>
                 </section>
+                {/* Promo Recommendations Section */}
+                {(() => {
+                  const cartProductIds = new Set(
+                    cart.map((item) => item.product_id)
+                  );
+                  const applicablePromos = promos.filter(
+                    (promo) =>
+                      cartProductIds.has(promo.product_id) &&
+                      new Date(promo.end_date).setHours(23, 59, 59, 999) >=
+                        new Date()
+                  );
+
+                  // Ensure unique promos if multiple cart items map to the same promo
+                  const uniqueApplicablePromos = Array.from(
+                    new Map(applicablePromos.map((p) => [p.id, p])).values()
+                  );
+
+                  if (uniqueApplicablePromos.length > 0) {
+                    return (
+                      <section className="my-6">
+                        <h3 className="text-tertiary font-bold text-lg mb-3">
+                          Special Offers for Your Items:
+                        </h3>
+                        <div className="space-y-3">
+                          {uniqueApplicablePromos.map((promo) => (
+                            <div
+                              key={promo.id}
+                              className="p-3 bg-green-50 border border-green-200 rounded-md shadow-sm"
+                            >
+                              <p className="font-semibold text-green-700">
+                                {promo.name} ({promo.discount}% off)
+                              </p>
+                              <p className="text-xs text-gray-600">
+                                {promo.desc}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                Coupon: {promo.coupon_code} (Expires:{" "}
+                                {new Date(promo.end_date).toLocaleDateString()})
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </section>
+                    );
+                  }
+                  return null;
+                })()}
               </section>
             </aside>
             <aside className="flex-1 flex flex-col gap-5">
