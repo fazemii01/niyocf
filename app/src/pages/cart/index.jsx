@@ -80,11 +80,27 @@ function Cart() {
     );
 
     if (foundPromo) {
-      setForm((form) => ({
-        ...form,
-        promo_id: foundPromo.id,
-      }));
-      toast.success(`Promo "${foundPromo.name}" applied successfully! 🎉`);
+      const endDate = new Date(foundPromo.end_date);
+      // Set endDate to the end of its day to make the promo valid throughout its end_date
+      endDate.setHours(23, 59, 59, 999);
+      const currentDate = new Date();
+
+      if (currentDate > endDate) {
+        // Promo is expired
+        setForm((form) => ({
+          ...form,
+          promo_id: null, // Do not apply promo
+          coupon_code: "", // Optionally clear coupon code input
+        }));
+        toast.error("Mohon maaf. promo sudah tidak bisa digunakan");
+      } else {
+        // Promo is valid and not expired
+        setForm((form) => ({
+          ...form,
+          promo_id: foundPromo.id,
+        }));
+        toast.success(`Promo "${foundPromo.name}" applied successfully! 🎉`);
+      }
     } else {
       setForm((form) => ({
         ...form,

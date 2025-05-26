@@ -184,6 +184,19 @@ function Products(props) {
                       <p className="text-xs text-gray-500 mt-1">
                         Until {new Date(promo.end_date).toLocaleDateString()}
                       </p>
+                      {(() => {
+                        const endDate = new Date(promo.end_date);
+                        endDate.setHours(23, 59, 59, 999);
+                        const currentDate = new Date();
+                        if (currentDate > endDate) {
+                          return (
+                            <p className="text-red-500 font-bold text-sm mt-1">
+                              Expired
+                            </p>
+                          );
+                        }
+                        return null;
+                      })()}
                     </div>
 
                     {Number(userInfo.role) > 1 && (
