@@ -505,7 +505,7 @@ function Cart() {
                 Detail Informasi Anda
                 <button
                   onClick={editMode ? saveEditInfo : toggleEdit}
-                  className="absolute text-lg right-0 bottom-0 top-1 hover:underline"
+                  className="btn btn-block btn-primary text-white py-4 font-bold rounded-lg disabled:bg-opacity-100`}"
                 >
                   {editMode ? "save" : "edit"}
                 </button>
