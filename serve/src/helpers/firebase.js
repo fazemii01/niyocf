@@ -1,4 +1,6 @@
 import admin from 'firebase-admin';
+import 'dotenv/config';
+
 
 const base64Credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 const decodedCredentials = Buffer.from(base64Credentials, "base64").toString(
